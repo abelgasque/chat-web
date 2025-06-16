@@ -35,6 +35,7 @@ jobs:
         APP_DEBUG: production
         APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
+        BASE_URL_API: ${{ secrets.BASE_URL_API }}
   
     - name: Build Angular App
       run: npm run build --configuration=production
