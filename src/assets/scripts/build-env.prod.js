@@ -1,6 +1,6 @@
 require('dotenv').config();
-require('./build-packege');
-require('./build-firebase');
+// require('./build-packege');
+// require('./build-firebase');
 
 const fs = require('fs');
 const path = require('path');
