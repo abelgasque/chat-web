@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --configuration=production",
+    "start": "npm run build-prod && ng serve",
+    "build": "ng build",
+    "build-prod": "node src/assets/scripts/build-env.prod.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
