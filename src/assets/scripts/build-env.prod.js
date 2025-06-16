@@ -13,11 +13,11 @@ try {
     version: process.env.APP_VERSION,
     baseUrlApi: baseUrlApi,
     tokenWhitelistedDomains: [
-      new RegExp(baseUrlApi),
+      baseUrlApi,
     ],
     tokenBlacklistedRoutes: [
-      new RegExp('\/api\/token'),
-      new RegExp('\/api\/user'),
+      '/api/token',
+      '/api/user',
     ]
   }
 
