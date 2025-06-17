@@ -1,5 +1,4 @@
 require('dotenv').config();
-require('./build-firebase');
 
 const fs = require('fs');
 const path = require('path');
