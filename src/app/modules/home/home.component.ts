@@ -9,10 +9,14 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeComponent {
 
+  title: string;
+  description: string;
   linkSwagger: string;
 
   constructor() {
     this.linkSwagger =  `${environment.baseUrlApi}/swagger`;
+    this.title = "ChatWeb";
+    this.description = "Chat Web - Description.";
   }
 
 }

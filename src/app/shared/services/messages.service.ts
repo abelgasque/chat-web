@@ -10,10 +10,11 @@ export class MessagesService {
 
   constructor(
     // private messageService: MessageService,
-    private sharedService: SharedService
+    // private sharedService: SharedService
   ) { }
 
   success(title: string, description: string) {
+    console.log(title, description);
     // this.messageService.add({
     //   severity: 'success',
     //   summary: title,
@@ -22,6 +23,7 @@ export class MessagesService {
   }
 
   error(title: string, description: string) {
+    console.log(title, description);
     // this.messageService.add({
     //   severity: 'error',
     //   summary: title,
@@ -45,7 +47,6 @@ export class MessagesService {
     }
 
     console.error('An error has occurred', error);
-    this.sharedService.closeSpinner();
     this.error('Error', msg);
   }
 }

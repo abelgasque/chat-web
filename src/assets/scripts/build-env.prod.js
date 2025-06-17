@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./build-packege');
 
 const fs = require('fs');
 const path = require('path');
@@ -8,6 +9,7 @@ try {
   const environmentVariables = {
     production: true,
     name: process.env.APP_NAME,
+    description: process.env.APP_DESCRIPTION,
     version: process.env.APP_VERSION,
     baseUrlApi: baseUrlApi,
     tokenWhitelistedDomains: [
