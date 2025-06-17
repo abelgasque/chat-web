@@ -15,8 +15,8 @@ export class HomeComponent {
 
   constructor() {
     this.linkSwagger =  `${environment.baseUrlApi}/swagger`;
-    this.title = "ChatWeb";
-    this.description = "Chat Web - Description.";
+    this.title = environment.name;
+    this.description = environment.description;
   }
 
 }
