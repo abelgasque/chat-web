@@ -1,8 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { MessageService } from 'primeng/api';
-
 import { SharedService } from './shared.service';
 
 @Injectable({
@@ -11,24 +9,24 @@ import { SharedService } from './shared.service';
 export class MessagesService {
 
   constructor(
-    private messageService: MessageService,
+    // private messageService: MessageService,
     private sharedService: SharedService
   ) { }
 
   success(title: string, description: string) {
-    this.messageService.add({
-      severity: 'success',
-      summary: title,
-      detail: description
-    });
+    // this.messageService.add({
+    //   severity: 'success',
+    //   summary: title,
+    //   detail: description
+    // });
   }
 
   error(title: string, description: string) {
-    this.messageService.add({
-      severity: 'error',
-      summary: title,
-      detail: description
-    });
+    // this.messageService.add({
+    //   severity: 'error',
+    //   summary: title,
+    //   detail: description
+    // });
   }
 
   public errorHandler(error: any) {

@@ -7,10 +7,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './widgets/sidebar/sidebar.component';
@@ -37,11 +33,11 @@ let components = [
     MatIconModule,
     MatListModule,
 
-    ProgressSpinnerModule,
-    ToastModule,
+    // ProgressSpinnerModule,
+    // ToastModule,
   ],
   providers: [
-    MessageService,
+    // MessageService,
   ]
 })
 export class SharedModule { }
