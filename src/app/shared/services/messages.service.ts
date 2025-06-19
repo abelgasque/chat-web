@@ -10,11 +10,12 @@ export class MessagesService {
 
   constructor(
     // private messageService: MessageService,
-    // private sharedService: SharedService
+    private sharedService: SharedService
   ) { }
 
   success(title: string, description: string) {
     console.log(title, description);
+    this.sharedService.closeSpinner();
     // this.messageService.add({
     //   severity: 'success',
     //   summary: title,
@@ -24,6 +25,7 @@ export class MessagesService {
 
   error(title: string, description: string) {
     console.log(title, description);
+    this.sharedService.closeSpinner();
     // this.messageService.add({
     //   severity: 'error',
     //   summary: title,

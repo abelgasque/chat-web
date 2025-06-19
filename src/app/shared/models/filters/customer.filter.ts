@@ -1,4 +1,6 @@
-export interface CustomerFilter {
+import { PaginationDTO } from "../DTO/pagination.dto";
+
+export interface CustomerFilter extends PaginationDTO{
     id: string;
     creationDateStart: string;
     creationDateEnd: string;
@@ -9,6 +11,4 @@ export interface CustomerFilter {
     mail: string;
     active: boolean;
     block: boolean;
-    page: number;
-    size: number;
 }

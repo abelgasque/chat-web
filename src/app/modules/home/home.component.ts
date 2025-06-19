@@ -9,14 +9,18 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeComponent {
 
-  title: string;
-  description: string;
-  linkSwagger: string;
+  public title: string;
+  public description: string;
+  public linkSwagger: string;
+  public username: string;
+  public password: string;
 
   constructor() {
     this.linkSwagger =  `${environment.baseUrlApi}/swagger`;
     this.title = environment.name;
     this.description = environment.description;
+    this.username = "admin@admin.com";
+    this.password = "12345678";
   }
 
 }

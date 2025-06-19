@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CustomerModule } from '../modules/customer/customer.module';
 import { HomeModule } from '../modules/home/home.module';
 import { SecurityModule } from '../modules/security/security.module';
+import { UserModule } from '../modules/user/user.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SecurityModule } from '../modules/security/security.module';
     SharedModule,
     CustomerModule,
     HomeModule,
-    SecurityModule
+    SecurityModule,
+    UserModule,
   ],
   providers: [
     AuthGuard,

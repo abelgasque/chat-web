@@ -10,15 +10,14 @@
     <span class="example-spacer"></span>
 
     <button mat-button [routerLink]="['/security', 'sign-in']" *ngIf="this.coreService.token === ''">
-        Sign in
+        <mat-icon>login</mat-icon>
     </button>
 
-    <button mat-button [routerLink]="['/security', 'sign-up']" *ngIf="this.coreService.token === ''">
-        Sign up
+    <button mat-icon-button [routerLink]="['/security', 'sign-up']" *ngIf="this.coreService.token === ''">
+        <mat-icon>group_add</mat-icon>
     </button>
 
-    <button mat-button (click)="securityService.signOut()" *ngIf="this.coreService.token !== ''">
-        Sign out
+    <button mat-icon-button (click)="securityService.signOut()" *ngIf="this.coreService.token !== ''">
         <mat-icon>logout</mat-icon>
     </button>
 </mat-toolbar>

@@ -37,15 +37,14 @@ export class SignInComponent implements OnInit {
     this.sharedService.openSpinner();
     this.tokenService.signIn(this.form.value).subscribe({
       next: (response: any) => {
-        this.coreService.setTokenLocalStorage(response.accessToken);
-        this.coreService.setCustomerLocalStorage(response.customer);
+        this.coreService.setTokenLocalStorage(response.access_token);
         this.router.navigate(['/']);
         this.messagesService.success('Success', 'User logged in successfully!');
         this.sharedService.closeSpinner();
       },
-      error: (e) => {
+      error: (e: any) => {
         this.messagesService.errorHandler(e);
-        this.form.reset();        
+        this.form.reset();
       }
     });
   }

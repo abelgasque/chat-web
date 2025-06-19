@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { CoreService } from 'src/app/shared/services/core.service';
-import { RefreshTokenDTO } from '../models/refreshTokenDTO.interface';
 import { MessagesService } from '../services/messages.service';
 import { SecurityService } from '../services/security.service';
 import { SharedService } from '../services/shared.service';
@@ -15,6 +15,7 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     public router: Router,
+    private jwtHelperService: JwtHelperService,
     private coreService: CoreService,
     private securityService: SecurityService,
     private sharedService: SharedService,
@@ -26,23 +27,23 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.coreService.token.length <= 0) {
+    const token = this.coreService.getTokenLocalStorage();
+    
+    if (!token) {
       this.router.navigate(['/page-not-authorized']);
-    } else if (!this.coreService.isValidToken()) {
+      return false;
+    }
+    
+    if (this.jwtHelperService.isTokenExpired(token)) {
       this.sharedService.openSpinner();
-
-      let refreshTokenDTO: RefreshTokenDTO = {
-        accessToken: this.coreService.token,
-        id: this.coreService.customer.id
-      };
-
-      this.tokenService.refresh(refreshTokenDTO).subscribe({
+      this.tokenService.refresh({
+        access_token: token
+      }).subscribe({
         next: (resp: any) => {
-          this.coreService.setTokenLocalStorage(resp.accessToken);
-          this.coreService.setCustomerLocalStorage(resp.customer);
+          this.coreService.setTokenLocalStorage(resp.access_token);
           this.router.navigate([state.url]);
-          this.messagesService.success('Success', 'User logged in successfully!');
           this.sharedService.closeSpinner();
+          this.messagesService.success('Success', 'User logged in successfully!');
           return true;
         },
         error: (error: any) => {
@@ -51,11 +52,7 @@ export class AuthGuard implements CanActivate {
           return false;
         }
       });
-    } else {
-      return true;
     }
-
-    return false;
+    return true;
   }
-
 }

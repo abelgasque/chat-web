@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.interface';
-import { CustomerFilter } from '../models/customerFilter.interface';
-import { CustomerLeadDTO } from '../models/customerLeadDTO.interface';
+import { CustomerFilter } from '../models/filters/customer.filter';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +18,6 @@ export class CustomerService {
 
   createAsync(customer: Customer) {
     return this.http.post<any>(`${this.baseUrl}`, customer);
-  }
-
-  createLeadAsync(customer: CustomerLeadDTO) {
-    return this.http.post<any>(`${this.baseUrl}/lead`, customer);
   }
 
   readAsync(filtro: CustomerFilter) {

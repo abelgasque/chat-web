@@ -4,13 +4,13 @@
             <a mat-tab-link [routerLink]="['/security', 'sign-in']" 
                 (click)="activeLink = 'sign-in'"
                 [active]="activeLink == 'sign-in'">
-                Sign in
+                <mat-icon>login</mat-icon>
             </a>
 
             <a mat-tab-link [routerLink]="['/security', 'sign-up']"
                 (click)="activeLink = 'sign-up'"
                 [active]="activeLink == 'sign-up'">
-                Sign up
+                <mat-icon>group_add</mat-icon>
             </a>
         </nav>
 
