@@ -26,11 +26,15 @@ export class CoreService {
     return localStorage.getItem('access_token') || '';
   }
 
+  getRefreshTokenLocalStorage() {
+    return localStorage.getItem('refresh_token') || '';
+  }
+
   setTokenLocalStorage(token: TokenDTO) {
     this.token = token.access_token;
     this.refresh_token = token.refresh_token;
 
-    const decodeToken = this.decodeToken(this.token);
+    const decodeToken = this.jwtHelperService.decodeToken(this.token);
     this.username = decodeToken.name;
     this.email = decodeToken.email;
 
@@ -50,18 +54,5 @@ export class CoreService {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('username');
     localStorage.removeItem('email');
-  }
-
-  private decodeToken(pToken: string) {
-    return this.jwtHelperService.decodeToken(pToken);
-  }
-
-  private isTokenExpired(pToken: string) {
-    return this.jwtHelperService.isTokenExpired(pToken);
-  }
-
-  public isValidToken(): boolean {
-    let token: string = this.getTokenLocalStorage();
-    return (token != null && token.length > 0) ? (!this.isTokenExpired(token)) : false;
   }
 }

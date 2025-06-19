@@ -27,17 +27,17 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const token = this.coreService.getTokenLocalStorage();
-    
+    const token = this.coreService.token;
+
     if (!token) {
       this.router.navigate(['/page-not-authorized']);
       return false;
     }
-    
+
     if (this.jwtHelperService.isTokenExpired(token)) {
       this.sharedService.openSpinner();
       this.tokenService.refresh({
-        access_token: token
+        refresh_token: this.coreService.refresh_token
       }).subscribe({
         next: (resp: any) => {
           this.coreService.setTokenLocalStorage(resp.access_token);
