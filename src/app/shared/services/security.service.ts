@@ -17,7 +17,7 @@ export class SecurityService {
 
   signOut() {
     this.sharedService.openedSidebar = false;
-    this.coreService.setTokenLocalStorage('');
+    this.coreService.removeTokenLocalStorage();
     this.router.navigate(['/']);
   }
 }

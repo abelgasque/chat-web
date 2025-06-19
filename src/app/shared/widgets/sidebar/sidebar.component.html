@@ -6,13 +6,13 @@
             </button>
         </li>
         <li class="space__center">
-            {{ this.coreService.token }} 
+            {{ this.coreService.username }}
         </li>
 
         <li class="space__center">
-            Email usuário
+            {{ this.coreService.email }}
         </li>
-    </ul>    
+    </ul>
 </div>
 <mat-nav-list>
     <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/']">
