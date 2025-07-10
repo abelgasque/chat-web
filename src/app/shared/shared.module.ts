@@ -13,6 +13,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './widgets/sidebar/sidebar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MessageComponent } from './components/message/message.component';
+import { SupersetDashboardComponent } from './components/superset-dashboard/superset-dashboard.component';
 
 let components = [
   FooterComponent,
@@ -20,6 +21,7 @@ let components = [
   SidebarComponent,
   SpinnerComponent,
   MessageComponent,
+  SupersetDashboardComponent,
 ]
 
 @NgModule({
