@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -32,9 +33,7 @@ let components = [
     MatToolbarModule,
     MatIconModule,
     MatListModule,
-
-    // ProgressSpinnerModule,
-    // ToastModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     // MessageService,

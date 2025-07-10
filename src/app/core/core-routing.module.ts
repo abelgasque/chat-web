@@ -20,11 +20,14 @@ const routes: Routes = [
         loadChildren: () => import('src/app/modules/security/security.module').then(m => m.SecurityModule)
       },
       {
-        path: 'customer',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('src/app/modules/customer/customer.module').then(m => m.CustomerModule)
+        path: 'user',
+        loadChildren: () => import('src/app/modules/user/user.module').then(m => m.UserModule)
       },
-
+      // {
+      //   path: 'customer',
+      //   canActivate: [AuthGuard],
+      //   loadChildren: () => import('src/app/modules/customer/customer.module').then(m => m.CustomerModule)
+      // },
       { path: 'page-not-found', component: PageRedirectComponent },
       { path: 'page-not-authorized', component: PageRedirectComponent },
       { path: '', redirectTo: '', pathMatch: 'full' },

@@ -6,21 +6,25 @@
             </button>
         </li>
         <li class="space__center">
-            {{ coreService.customer.firstName }} {{ coreService.customer.lastName}}
+            {{ this.coreService.username }}
         </li>
 
         <li class="space__center">
-            {{ coreService.customer.mail }}
+            {{ this.coreService.email }}
         </li>
-    </ul>    
+    </ul>
 </div>
 <mat-nav-list>
     <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/']">
         <mat-icon>home</mat-icon>
         Home
     </mat-list-item>
-    <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/customer']">
+    <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/user']">
+        <mat-icon>manage_accounts</mat-icon>
+        User
+    </mat-list-item>
+    <!-- <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/customer']">
         <mat-icon>peoples</mat-icon>
         Customer
-    </mat-list-item>
+    </mat-list-item> -->
 </mat-nav-list>
