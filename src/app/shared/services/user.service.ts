@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.interface';
 import { UserFilter } from '../models/filters/user.filter';
-import { CoreService } from './core.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +14,10 @@ export class UserService {
   private baseUrl: string;
   private headers: any;
 
-  constructor(
-    private http: HttpClient,
-    private coreService: CoreService
-  ) {
+  constructor(private http: HttpClient) {
     this.baseUrl = `${environment.baseUrlApi}/api/user`;
     this.headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.coreService.token}`
+      'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     });
   }
 
