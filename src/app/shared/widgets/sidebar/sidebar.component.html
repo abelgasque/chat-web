@@ -15,16 +15,24 @@
     </ul>
 </div>
 <mat-nav-list>
+    <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/bot']">
+        <mat-icon>android</mat-icon>
+        <span>Bot</span>
+    </mat-list-item>
+    <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/dashboard']">
+        <mat-icon>dashboards</mat-icon>
+        <span>Dashboard</span>
+    </mat-list-item>
     <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/']">
         <mat-icon>home</mat-icon>
-        Home
-    </mat-list-item>
-    <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/user']">
-        <mat-icon>peoples</mat-icon>
-        User
+        <span>Home</span>
     </mat-list-item>
     <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/tenant']">
         <mat-icon>manage_accounts</mat-icon>
-        Tenant
+        <span>Tenant</span>
+    </mat-list-item>
+    <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/user']">
+        <mat-icon>peoples</mat-icon>
+        <span>User</span>
     </mat-list-item>
 </mat-nav-list>
