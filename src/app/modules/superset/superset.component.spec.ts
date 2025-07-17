@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogCustomerComponent } from './dialog-customer.component';
+import { SupersetComponent } from './superset.component';
 
-describe('DialogCustomerComponent', () => {
-  let component: DialogCustomerComponent;
-  let fixture: ComponentFixture<DialogCustomerComponent>;
+describe('SupersetComponent', () => {
+  let component: SupersetComponent;
+  let fixture: ComponentFixture<SupersetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogCustomerComponent ]
+      declarations: [ SupersetComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DialogCustomerComponent);
+    fixture = TestBed.createComponent(SupersetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

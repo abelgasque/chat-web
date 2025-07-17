@@ -5,26 +5,14 @@
                 <mat-icon>close</mat-icon>
             </button>
         </li>
-        <li class="space__center">
-            {{ this.coreService.username }}
-        </li>
-
-        <li class="space__center">
-            {{ this.coreService.email }}
+        <li class="space__center" *ngFor="let props of user">
+            {{ props.value }}
         </li>
     </ul>
 </div>
 <mat-nav-list>
-    <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/']">
-        <mat-icon>home</mat-icon>
-        Home
+    <mat-list-item *ngFor="let item of menuItems" routerLinkActive="list-item-active" [routerLink]="[item.route]">
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
     </mat-list-item>
-    <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/user']">
-        <mat-icon>manage_accounts</mat-icon>
-        User
-    </mat-list-item>
-    <!-- <mat-list-item routerLinkActive="list-item-active" [routerLink]="['/customer']">
-        <mat-icon>peoples</mat-icon>
-        Customer
-    </mat-list-item> -->
 </mat-nav-list>
