@@ -32,9 +32,12 @@ jobs:
       run: npm run build-prod
       env:
         APP_DEBUG: production
-        APP_NAME: ${{ github.repository }}
         APP_VERSION: ${{ github.ref_name }} 
-        BASE_URL_API: ${{ secrets.BASE_URL_API }}
+        APP_NAME: ${{ github.repository }}
+        APP_DESCRIPTION: git_actions
+        APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+        SUPERSET_BASE_URL: ${{ secrets.SUPERSET_BASE_URL }}
+        SUPERSET_EMBED_ADMIN_ID: ${{ secrets.SUPERSET_EMBED_ADMIN_ID }}
   
     - name: Build Angular App
       run: npm run build -- --output-path=dist --base-href /chat-web/ --configuration=production
