@@ -20,7 +20,7 @@ const routes: Routes = [
         loadChildren: () => import('src/app/modules/security/security.module').then(m => m.SecurityModule)
       },
       {
-        path: 'superset',
+        path: 'dashboard',
         loadChildren: () => import('src/app/modules/superset/superset.module').then(m => m.SupersetModule)
       },
       {
