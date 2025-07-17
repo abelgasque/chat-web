@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { SupersetService } from 'src/app/shared/services/superset.service';
 
 @Component({
@@ -8,33 +10,28 @@ import { SupersetService } from 'src/app/shared/services/superset.service';
 })
 export class SupersetComponent implements OnInit {
 
-  id: string = "819810c9-c9e3-4a3f-817f-54622d4fae10";
+  id: string;
   token: string;
-  accessToken: string;
 
-  constructor(public supersetService: SupersetService) { }
+  constructor(
+    private route: ActivatedRoute,
+    public supersetService: SupersetService
+  ) { }
 
   ngOnInit(): void {
-    this.getAccessToken();
+    this.id = this.route.snapshot.paramMap.get('id') || '';
+    console.log('id acesso recebido:', this.id);
+    this.guestToken(this.id, []);
   }
 
-  getAccessToken() {
-    this.supersetService.accessToken().subscribe({
+  guestToken(id: string, clauses: []) {
+    this.supersetService.guestToken(id, clauses).subscribe({
       next: (response: any) => {
-        console.log('Token acesso recebido:', response);
-        this.accessToken = response.access_token;
-        this.supersetService.guestToken(this.accessToken).subscribe({
-          next: (response: any) => {
-            console.log('Token guest recebido:', response);
-            this.token = response.token;
-          },
-          error: (error) => {
-            console.error('Erro ao buscar guest token:', error);
-          }
-        });
+        console.log('Token guest recebido:', response);
+        this.token = response.token;
       },
       error: (error) => {
-        console.error('Erro ao buscar access token:', error);
+        console.error('Erro ao buscar guest token:', error);
       }
     });
   }

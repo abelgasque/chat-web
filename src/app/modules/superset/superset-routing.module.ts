@@ -5,7 +5,7 @@ import { SupersetComponent } from './superset.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':id',
     component: SupersetComponent
   }
 ];

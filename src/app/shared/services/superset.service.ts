@@ -1,36 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupersetService {
 
-  
-  public baseUrl: string = "https://localhost:8088";
+  private baseUrl: string;
+  private headers: HttpHeaders;
+  public supersetUrl: string;
 
-  constructor(private http: HttpClient) { }
-
-  accessToken() {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+  constructor(private http: HttpClient) {
+    this.baseUrl = `${environment.baseUrlApi}/api/superset/guest_token`;
+    this.supersetUrl = environment.supersetConfig.url;
+    this.headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     });
-
-    return this.http.post(`${this.baseUrl}/api/v1/security/login`, {
-      "username": "admin",
-      "password": "admin",
-      "provider": "db",
-      "refresh": true
-    }, { headers });
   }
 
-  guestToken(accessToken: string) {
-    const headers = new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
-    });
-    return this.http.post(`${this.baseUrl}/api/v1/security/guest`, { headers });
+  guestToken(id: string, clauses: []) {
+    return this.http.post(this.baseUrl, {
+      id: id, clauses: clauses
+    }, { headers: this.headers });
   }
 }
