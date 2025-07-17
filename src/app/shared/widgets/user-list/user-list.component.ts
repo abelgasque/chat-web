@@ -1,12 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-
-import { User } from 'src/app/shared/models/user.interface';
-import { UserService } from 'src/app/shared/services/user.service';
-import { MessagesService } from 'src/app/shared/services/messages.service';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-user-list',
@@ -15,84 +11,45 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 })
 export class UserListComponent implements OnInit {
 
-  @Input() data = new MatTableDataSource();
-  @Input() displayedColumns: string[];
+  @Input() set data(value: any[]) {
+    this.dataSource.data = value || [];
+  }
+
   @Input() totalRecords: number = 20;
   @Input() page: number = 1;
   @Input() size: number = 20;
   @Input() form: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private sharedService: SharedService,
-    private messagesService: MessagesService
-  ) {}
+  @Output() eventRead = new EventEmitter<any>();
+  @Output() eventReadById = new EventEmitter<any>();
+  @Output() eventDeleteById = new EventEmitter<any>();
+
+  public dataSource = new MatTableDataSource<any>();
+  public displayedColumns: string[];
+
+  constructor() { }
 
   ngOnInit(): void {
-    this.displayedColumns = ['name', 'email', 'createdAt', 'updatedAt', 'activeAt', 'loggedAt', 'actions'];
-    this.form = this.fb.group({
-      createdAtStart: [''],
-      createdAtEnd: [''],
-      name: ['', [Validators.maxLength(50)]],
-      email: ['', [Validators.maxLength(250)]],
-    });
-    this.read();
-  }
-
-  read() {
-    let filter = Object.assign({}, { size: this.size, page: this.page }, this.form.value);
-    this.userService.readAsync(filter).subscribe({
-      next: (resp: any) => {
-        console.log(resp);
-        this.data.data = resp;
-        // this.data.data = resp.data;
-        // this.totalRecords = resp.total;
-        // this.size = resp.size;
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
+    this.displayedColumns = [
+      'name', 'email', 'createdAt', 'updatedAt', 'activeAt', 'loggedAt', 'actions'
+    ];
   }
 
   readById(id: string) {
-    this.sharedService.openSpinner();
-    this.userService.readByIdAsync(id).subscribe({
-      next: (resp: User) => {
-        // this.openDialog(resp);
-        this.sharedService.closeSpinner();
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
+    this.eventReadById.emit(id);
   }
 
-  delete(id: string) {
-    this.sharedService.openSpinner();
-    this.userService.deleteByIdAsync(id).subscribe({
-      next: (resp: any) => {
-        this.read();
-        this.sharedService.closeSpinner();
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
+  deleteById(id: string) {
+    this.eventDeleteById.emit(id);
   }
 
   handlePageEvent(event: PageEvent) {
     this.size = event.pageSize;
     this.page = (event.pageIndex + 1);
-    this.read();
+    this.eventRead.emit({ size: this.size, page: this.page });
   }
 
   clear() {
     this.form.reset();
-  }
-
-  newUser() {
-
   }
 }

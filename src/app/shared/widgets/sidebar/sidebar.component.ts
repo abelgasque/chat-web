@@ -26,10 +26,9 @@ export class SidebarComponent {
     ];
 
     this.menuItems = [
-      { label: 'Bot', icon: 'android', route: '/bot' },
-      { label: 'Chat', icon: 'chat', route: '/chat' },
-      { label: 'Dashboard', icon: 'dashboards', route: '/dashboards' },
-      { label: 'Report', icon: 'assignment', route: '/report' },
+      // { label: 'Bot', icon: 'android', route: '/bot' },
+      // { label: 'Channel', icon: 'chat', route: '/channel' },
+      // { label: 'Dashboard', icon: 'dashboards', route: '/dashboard' },
       { label: 'Tenant', icon: 'manage_accounts', route: '/tenant' },
       { label: 'User', icon: 'peoples', route: '/user' },
     ];

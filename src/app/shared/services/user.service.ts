@@ -25,7 +25,10 @@ export class UserService {
     return this.http.post<any>(`${this.baseUrl}`, entity, { headers: this.headers });
   }
 
-  readAsync(filter: UserFilter) {
+  readAsync() {
+    return this.http.get<any>(`${this.baseUrl}`, { headers: this.headers });
+  }
+  readFilterAsync(filter: UserFilter) {
     let params = new HttpParams({
       fromObject: {
         page: filter.page.toString(),
