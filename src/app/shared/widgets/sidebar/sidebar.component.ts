@@ -27,7 +27,7 @@ export class SidebarComponent {
 
     this.menuItems = [
       { label: 'Bot', icon: 'android', route: '/bot' },
-      { label: 'Dashboard', icon: 'dashboards', route: '/dashboards' },
+      // { label: 'Dashboard', icon: 'dashboards', route: '/dashboards' },
       { label: 'Home', icon: 'home', route: '/' },
       { label: 'Tenant', icon: 'manage_accounts', route: '/tenant' },
       { label: 'User', icon: 'peoples', route: '/user' },
