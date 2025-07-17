@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const {
-  BASE_URL_API,
+  APP_BASE_URL,
   APP_NAME,
   APP_DESCRIPTION,
   APP_VERSION,
@@ -19,13 +19,13 @@ try {
     name: APP_NAME,
     description: APP_DESCRIPTION,
     version: APP_VERSION,
-    baseUrlApi: BASE_URL_API,
+    baseUrlApi: APP_BASE_URL,
     supersetConfig: {
       url: SUPERSET_BASE_URL,
       adminId: SUPERSET_EMBED_ADMIN_ID
     },
     tokenWhitelistedDomains: [
-      BASE_URL_API,
+      APP_BASE_URL,
     ],
     tokenBlacklistedRoutes: [
       '/api/token',
