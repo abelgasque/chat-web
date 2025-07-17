@@ -1,17 +1,31 @@
 require('dotenv').config();
+require('./build-packege');
 
 const fs = require('fs');
 const path = require('path');
 
+const {
+  APP_BASE_URL,
+  APP_NAME,
+  APP_DESCRIPTION,
+  APP_VERSION,
+  SUPERSET_BASE_URL,
+  SUPERSET_EMBED_ADMIN_ID,
+} = process.env;
+
 try {
-  const baseUrlApi = process.env.BASE_URL_API;
   const environmentVariables = {
     production: true,
-    name: process.env.APP_NAME,
-    version: process.env.APP_VERSION,
-    baseUrlApi: baseUrlApi,
+    name: APP_NAME,
+    description: APP_DESCRIPTION,
+    version: APP_VERSION,
+    baseUrlApi: APP_BASE_URL,
+    supersetConfig: {
+      url: SUPERSET_BASE_URL,
+      adminId: SUPERSET_EMBED_ADMIN_ID
+    },
     tokenWhitelistedDomains: [
-      baseUrlApi,
+      APP_BASE_URL,
     ],
     tokenBlacklistedRoutes: [
       '/api/token',
@@ -20,7 +34,7 @@ try {
   }
 
   fs.writeFileSync(
-    path.join("src/environments", "environment.prod.ts"),   
+    path.join("src/environments", "environment.prod.ts"),
     `export const environment = ${JSON.stringify(environmentVariables, null, 2)};`
   );
   console.log(`Vairaveis de ambiente criadas com sucesso!`);
