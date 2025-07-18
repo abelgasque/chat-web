@@ -9,19 +9,16 @@ import { RefreshTokenDTO } from '../models/DTO/refreshToken.dto';
   providedIn: 'root'
 })
 export class TokenService {
-  private baseUrl: string;
 
   constructor(
     private http: HttpClient,
-  ) {
-    this.baseUrl = `${environment.baseUrlApi}/api/auth`;
-  }
+  ) { }
 
   signIn(user: UserDTO) {
-    return this.http.post<any>(`${this.baseUrl}/login`, user);
+    return this.http.post<any>(`${environment.baseUrlApi}/token`, user);
   }
 
   refresh(refreshToken: RefreshTokenDTO) {
-    return this.http.post<any>(`${this.baseUrl}/refresh`, refreshToken);
+    return this.http.post<any>(`${environment.baseUrlApi}/token/refresh`, refreshToken);
   }
 }
