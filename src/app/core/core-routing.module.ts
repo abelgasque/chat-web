@@ -25,13 +25,24 @@ const routes: Routes = [
       },
       {
         path: 'user',
+        //canActivate: [AuthGuard],
         loadChildren: () => import('src/app/modules/user/user.module').then(m => m.UserModule)
       },
-      // {
-      //   path: 'customer',
-      //   canActivate: [AuthGuard],
-      //   loadChildren: () => import('src/app/modules/customer/customer.module').then(m => m.CustomerModule)
-      // },
+      {
+        path: 'tenant',
+        //canActivate: [AuthGuard],
+        loadChildren: () => import('src/app/modules/tenant/tenant.module').then(m => m.TenantModule)
+      },
+      {
+        path: 'channel',
+        //canActivate: [AuthGuard],
+        loadChildren: () => import('src/app/modules/channel/channel.module').then(m => m.ChannelModule)
+      },
+      {
+        path: 'bot',
+        //canActivate: [AuthGuard],
+        loadChildren: () => import('src/app/modules/bot/bot.module').then(m => m.BotModule)
+      },
       { path: 'page-not-found', component: PageRedirectComponent },
       { path: 'page-not-authorized', component: PageRedirectComponent },
       { path: '', redirectTo: '', pathMatch: 'full' },

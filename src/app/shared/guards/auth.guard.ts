@@ -40,7 +40,7 @@ export class AuthGuard implements CanActivate {
         refresh_token: this.coreService.refresh_token
       }).subscribe({
         next: (resp: any) => {
-          this.coreService.setTokenLocalStorage(resp.access_token);
+          this.coreService.setTokenLocalStorage(resp);
           this.router.navigate([state.url]);
           this.sharedService.closeSpinner();
           this.messagesService.success('Success', 'User logged in successfully!');

@@ -12,7 +12,6 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 })
 export class UserComponent implements OnInit {
 
-  private loading = false;
   public users: [];
   public user: any;
 
@@ -33,7 +32,6 @@ export class UserComponent implements OnInit {
       },
       error: (error: any) => {
         this.messagesService.errorHandler(error);
-        this.loading = false;
       }
     })
   }

@@ -26,8 +26,8 @@ export class SidebarComponent {
     ];
 
     this.menuItems = [
-      // { label: 'Bot', icon: 'android', route: '/bot' },
-      // { label: 'Channel', icon: 'chat', route: '/channel' },
+      { label: 'Bot', icon: 'android', route: '/bot' },
+      { label: 'Channel', icon: 'chat', route: '/channel' },
       // { label: 'Dashboard', icon: 'dashboards', route: '/dashboard' },
       { label: 'Tenant', icon: 'manage_accounts', route: '/tenant' },
       { label: 'User', icon: 'peoples', route: '/user' },

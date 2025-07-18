@@ -15,7 +15,7 @@ export class UserService {
   private headers: any;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = `${environment.baseUrlApi}/api/user`;
+    this.baseUrl = `${environment.baseUrlApi}/user`;
     this.headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     });
@@ -28,6 +28,7 @@ export class UserService {
   readAsync() {
     return this.http.get<any>(`${this.baseUrl}`, { headers: this.headers });
   }
+
   readFilterAsync(filter: UserFilter) {
     let params = new HttpParams({
       fromObject: {

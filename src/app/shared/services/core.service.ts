@@ -31,15 +31,11 @@ export class CoreService {
   }
 
   setTokenLocalStorage(token: TokenDTO) {
-    this.token = token.access_token;
-    this.refresh_token = token.refresh_token;
-
-    const decodeToken = this.jwtHelperService.decodeToken(this.token);
-    this.username = decodeToken.name;
-    this.email = decodeToken.email;
+    this.token = token.accessToken;
+    this.username = token.data.username;
+    this.email = token.data.email;
 
     localStorage.setItem('access_token', this.token);
-    localStorage.setItem('refresh_token', this.refresh_token);
     localStorage.setItem('username', this.username);
     localStorage.setItem('email', this.email);
   }

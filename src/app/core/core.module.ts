@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeModule } from '../modules/home/home.module';
 import { SecurityModule } from '../modules/security/security.module';
 import { UserModule } from '../modules/user/user.module';
+import { TenantModule } from '../modules/tenant/tenant.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { UserModule } from '../modules/user/user.module';
     HomeModule,
     SecurityModule,
     UserModule,
+    TenantModule,
   ],
   providers: [
     AuthGuard,
