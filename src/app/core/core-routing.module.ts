@@ -38,6 +38,11 @@ const routes: Routes = [
         //canActivate: [AuthGuard],
         loadChildren: () => import('src/app/modules/channel/channel.module').then(m => m.ChannelModule)
       },
+      {
+        path: 'bot',
+        //canActivate: [AuthGuard],
+        loadChildren: () => import('src/app/modules/bot/bot.module').then(m => m.BotModule)
+      },
       { path: 'page-not-found', component: PageRedirectComponent },
       { path: 'page-not-authorized', component: PageRedirectComponent },
       { path: '', redirectTo: '', pathMatch: 'full' },
