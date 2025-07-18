@@ -33,6 +33,11 @@ const routes: Routes = [
         //canActivate: [AuthGuard],
         loadChildren: () => import('src/app/modules/tenant/tenant.module').then(m => m.TenantModule)
       },
+      {
+        path: 'channel',
+        //canActivate: [AuthGuard],
+        loadChildren: () => import('src/app/modules/channel/channel.module').then(m => m.ChannelModule)
+      },
       { path: 'page-not-found', component: PageRedirectComponent },
       { path: 'page-not-authorized', component: PageRedirectComponent },
       { path: '', redirectTo: '', pathMatch: 'full' },
