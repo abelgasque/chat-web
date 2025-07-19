@@ -1,15 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-tenant-list',
-  templateUrl: './tenant-list.component.html',
-  styleUrls: ['./tenant-list.component.scss']
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss']
 })
-export class TenantListComponent implements OnInit {
+export class ListComponent implements OnInit {
 
   @Input() set data(value: any[]) {
     this.dataSource.data = value || [];
@@ -19,6 +18,7 @@ export class TenantListComponent implements OnInit {
   @Input() page: number = 1;
   @Input() size: number = 20;
   @Input() form: FormGroup;
+  @Input() columns: any[];
 
   @Output() eventRead = new EventEmitter<any>();
   @Output() eventReadById = new EventEmitter<any>();
@@ -30,11 +30,17 @@ export class TenantListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.displayedColumns = [
-      'name', 'database', 'createdAt', 'deletedAt', 'actions'
-    ];
+    this.displayedColumns = this.columns.map(c => c.name);
+    this.displayedColumns.push('actions');
   }
 
+  getCellValue(row: any, columnName: string): any {
+    const value = row[columnName];
+    if (columnName.toLowerCase().includes('date') && value) {
+      return new Date(value).toLocaleString();
+    }
+    return value;
+  }
   readById(id: string) {
     this.eventReadById.emit(id);
   }
