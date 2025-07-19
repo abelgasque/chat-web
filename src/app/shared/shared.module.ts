@@ -27,6 +27,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MessageComponent } from './components/message/message.component';
 import { SupersetDashboardComponent } from './components/superset-dashboard/superset-dashboard.component';
 import { UserListComponent } from './widgets/user-list/user-list.component';
+import { TenantListComponent } from './widgets/tenant-list/tenant-list.component';
 
 let components = [
   FooterComponent,
@@ -36,6 +37,7 @@ let components = [
   MessageComponent,
   SupersetDashboardComponent,
   UserListComponent,
+  TenantListComponent,
 ]
 
 @NgModule({
