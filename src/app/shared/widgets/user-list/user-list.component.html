@@ -38,11 +38,11 @@
                     <mat-icon>settings</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="readById(col.id)">
+                    <button mat-menu-item (click)="readById(col.guid)">
                         <mat-icon>edit</mat-icon>
                         <span>Update</span>
                     </button>
-                    <button mat-menu-item (click)="deleteById(col.id)">
+                    <button mat-menu-item (click)="deleteById(col.guid)">
                         <mat-icon>delete</mat-icon>
                         <span>Delete</span>
                     </button>
