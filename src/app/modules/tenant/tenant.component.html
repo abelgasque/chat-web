@@ -1,6 +1,7 @@
 <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Search">
-        <app-tenant-list></app-tenant-list>
+        <app-tenant-list [data]="tenants" [totalRecords]="tenants.length"
+            ></app-tenant-list>
     </mat-tab>
     <mat-tab label="Create"></mat-tab>
 </mat-tab-group>
