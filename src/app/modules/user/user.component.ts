@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   public user: any;
 
   constructor(
-    private userService: UserService,
+    private service: UserService,
     private messagesService: MessagesService
   ) { }
 
@@ -32,7 +32,7 @@ export class UserComponent implements OnInit {
   }
 
   onRead(filter: any) {
-    this.userService.readAsync().subscribe({
+    this.service.readAsync().subscribe({
       next: (resp: any) => {
         this.users = resp;
       },
@@ -43,7 +43,7 @@ export class UserComponent implements OnInit {
   }
 
   onReadById(id: string) {
-    this.userService.readByIdAsync(id).subscribe({
+    this.service.readByIdAsync(id).subscribe({
       next: (resp: User) => {
         this.user = resp;
         this.setTab(1, "Edit");
@@ -55,7 +55,7 @@ export class UserComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    this.userService.deleteByIdAsync(id).subscribe({
+    this.service.deleteByIdAsync(id).subscribe({
       next: (resp: any) => {
         this.onRead(null);
       },
