@@ -12,8 +12,8 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 })
 export class UserComponent implements OnInit {
 
-  public users: [];
-  public user: any;
+  public users: [] = [];
+  public user: any = null;
 
   constructor(
     private userService: UserService,

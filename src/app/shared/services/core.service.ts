@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenDTO } from '../models/DTO/token.dto';
@@ -22,6 +23,12 @@ export class CoreService {
     this.email = localStorage.getItem('email') || '';
   }
 
+  setHeadersBearer() {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.getTokenLocalStorage()}`
+    });
+  }
+
   getTokenLocalStorage() {
     return localStorage.getItem('access_token') || '';
   }
@@ -35,6 +42,7 @@ export class CoreService {
     this.username = token.data.username;
     this.email = token.data.email;
 
+    localStorage.setItem('token', this.token);
     localStorage.setItem('access_token', this.token);
     localStorage.setItem('username', this.username);
     localStorage.setItem('email', this.email);
@@ -46,6 +54,7 @@ export class CoreService {
     this.username = '';
     this.email = '';
 
+    localStorage.removeItem('token');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('username');

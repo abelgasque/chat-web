@@ -6,27 +6,29 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.interface';
 import { UserFilter } from '../models/filters/user.filter';
+import { CoreService } from './core.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private baseUrl: string;
-  private headers: any;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private coreService: CoreService
+  ) {
     this.baseUrl = `${environment.baseUrlApi}/user`;
-    this.headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-    });
   }
 
   createAsync(entity: User) {
-    return this.http.post<any>(`${this.baseUrl}`, entity, { headers: this.headers });
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.post<any>(`${this.baseUrl}`, entity, { headers });
   }
 
   readAsync() {
-    return this.http.get<any>(`${this.baseUrl}`, { headers: this.headers });
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.get<any>(`${this.baseUrl}`, { headers });
   }
 
   readFilterAsync(filter: UserFilter) {
@@ -50,18 +52,22 @@ export class UserService {
       params = params.append('createdAtEnd', formatDate(filter.createdAtEnd, 'yyyy-MM-dd', 'en').toString());
     }
 
-    return this.http.get<any>(`${this.baseUrl}`, { headers: this.headers, params });
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.get<any>(`${this.baseUrl}`, { headers, params });
   }
 
   readByIdAsync(id: string) {
-    return this.http.get<any>(`${this.baseUrl}/${id}`, { headers: this.headers });
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.get<any>(`${this.baseUrl}/${id}`, { headers });
   }
 
   updateAsync(entity: User) {
-    return this.http.put<any>(`${this.baseUrl}`, entity, { headers: this.headers });
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.put<any>(`${this.baseUrl}`, entity, { headers });
   }
 
   deleteByIdAsync(id: string) {
-    return this.http.delete<any>(`${this.baseUrl}/${id}`, { headers: this.headers });
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.delete<any>(`${this.baseUrl}/${id}`, { headers });
   }
 }

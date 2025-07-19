@@ -1,6 +1,12 @@
 <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Search">
-        <app-user-list [data]="users" [totalRecords]="users.length"></app-user-list>
+        <app-user-list 
+            [data]="users" 
+            [totalRecords]="users.length"
+            (eventRead)="read($event)"
+            (eventReadById)="readById($event)"
+            (eventDeleteById)="delete($event)"
+        ></app-user-list>
     </mat-tab>
     <mat-tab label="Create"></mat-tab>
 </mat-tab-group>
