@@ -36,7 +36,6 @@ export class TenantListComponent implements OnInit {
   }
 
   readById(id: string) {
-    console.log(id);
     this.eventReadById.emit(id);
   }
 

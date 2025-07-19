@@ -1,7 +1,13 @@
-<mat-tab-group mat-align-tabs="start">
+<mat-tab-group [(selectedIndex)]="selectedTabIndex" mat-align-tabs="start">
     <mat-tab label="Search">
-        <app-tenant-list [data]="tenants" [totalRecords]="tenants.length"
-            ></app-tenant-list>
+        <app-tenant-list [data]="tenants" [totalRecords]="tenants.length" (eventRead)="onRead($event)"
+            (eventReadById)="onReadById($event)" (eventDeleteById)="onDelete($event)"></app-tenant-list>
     </mat-tab>
-    <mat-tab label="Create"></mat-tab>
+    <mat-tab [label]="tabLabel">
+        <p>{{ tenant?.name }}</p>
+        <p>{{ tenant?.email }}</p>
+        <p>{{ tenant?.createdAt }}</p>
+        <p>{{ tenant?.deletedAt }}</p>
+        <p>{{ tenant?.activeAt }}</p>
+    </mat-tab>
 </mat-tab-group>
