@@ -6,9 +6,9 @@
             <td mat-cell *matCellDef="let col"> {{col.name}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-            <td mat-cell *matCellDef="let col">{{col.email}}</td>
+        <ng-container matColumnDef="database">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Database </th>
+            <td mat-cell *matCellDef="let col">{{col.database}}</td>
         </ng-container>
 
         <ng-container matColumnDef="createdAt">
@@ -16,21 +16,12 @@
             <td mat-cell *matCellDef="let col"> {{col.createdAt | date : 'yyyy-MM-dd hh:mm'}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="updatedAt">
-            <th mat-header-cell *matHeaderCellDef style="width: 10pc;" mat-sort-header> Date Update </th>
-            <td mat-cell *matCellDef="let col"> {{col.updatedAt | date : 'yyyy-MM-dd hh:mm'}}</td>
+        <ng-container matColumnDef="deletedAt">
+            <th mat-header-cell *matHeaderCellDef style="width: 10pc;" mat-sort-header> Date Deleted </th>
+            <td mat-cell *matCellDef="let col"> {{col.deletedAt | date : 'yyyy-MM-dd hh:mm'}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="activeAt">
-            <th mat-header-cell *matHeaderCellDef style="width: 5pc;" mat-sort-header> Active </th>
-            <td mat-cell *matCellDef="let col"> {{col.activeAt | date : 'yyyy-MM-dd hh:mm'}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="loggedAt">
-            <th mat-header-cell *matHeaderCellDef style="width: 5pc;" mat-sort-header> Logged </th>
-            <td mat-cell *matCellDef="let col"> {{col.loggedAt | date : 'yyyy-MM-dd hh:mm'}}</td>
-        </ng-container>
-
+        
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef style="width: 5pc;" mat-sort-header> Actions </th>
             <td mat-cell *matCellDef="let col">
@@ -38,11 +29,11 @@
                     <mat-icon>settings</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="readById(col.guid)">
+                    <button mat-menu-item (click)="readById(col.id)">
                         <mat-icon>edit</mat-icon>
                         <span>Update</span>
                     </button>
-                    <button mat-menu-item (click)="deleteById(col.guid)">
+                    <button mat-menu-item (click)="deleteById(col.id)">
                         <mat-icon>delete</mat-icon>
                         <span>Delete</span>
                     </button>

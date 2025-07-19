@@ -15,8 +15,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   imports: [
     CommonModule,
-    UserRoutingModule,
     MatTabsModule,
+    UserRoutingModule,
     SharedModule,
   ],
   providers: [

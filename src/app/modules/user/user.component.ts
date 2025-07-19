@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/shared/models/user.interface';
 import { UserService } from 'src/app/shared/services/user.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
-import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-user',
@@ -12,20 +11,27 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 })
 export class UserComponent implements OnInit {
 
-  public users: [];
+  public tabLabel = "Create";
+  public selectedTabIndex = 0;
+  public users: [] = [];
   public user: any;
 
   constructor(
     private userService: UserService,
-    private sharedService: SharedService,
     private messagesService: MessagesService
   ) { }
 
   ngOnInit(): void {
-    this.read();
+    this.user = null;
+    this.onRead(null);
   }
 
-  read() {
+  setTab(index, title) {
+    this.selectedTabIndex = index;
+    this.tabLabel = title;
+  }
+
+  onRead(filter: any) {
     this.userService.readAsync().subscribe({
       next: (resp: any) => {
         this.users = resp;
@@ -36,11 +42,11 @@ export class UserComponent implements OnInit {
     })
   }
 
-  readById(id: string) {
-    this.sharedService.openSpinner();
+  onReadById(id: string) {
     this.userService.readByIdAsync(id).subscribe({
       next: (resp: User) => {
-        this.sharedService.closeSpinner();
+        this.user = resp;
+        this.setTab(1, "Edit");
       },
       error: (error: any) => {
         this.messagesService.errorHandler(error);
@@ -48,12 +54,10 @@ export class UserComponent implements OnInit {
     })
   }
 
-  delete(id: string) {
-    this.sharedService.openSpinner();
+  onDelete(id: string) {
     this.userService.deleteByIdAsync(id).subscribe({
       next: (resp: any) => {
-        this.read();
-        this.sharedService.closeSpinner();
+        this.onRead(null);
       },
       error: (error: any) => {
         this.messagesService.errorHandler(error);
