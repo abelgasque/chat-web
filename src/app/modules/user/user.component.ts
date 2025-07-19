@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { User } from 'src/app/shared/models/user.interface';
 import { UserService } from 'src/app/shared/services/user.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 
@@ -10,7 +11,10 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
 })
 export class UserComponent implements OnInit {
 
+  public tabLabel = "Create";
+  public selectedTabIndex = 0;
   public users: [] = [];
+  public user: any;
 
   constructor(
     private userService: UserService,
@@ -18,7 +22,13 @@ export class UserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.user = null;
     this.onRead(null);
+  }
+
+  setTab(index, title) {
+    this.selectedTabIndex = index;
+    this.tabLabel = title;
   }
 
   onRead(filter: any) {
@@ -31,4 +41,28 @@ export class UserComponent implements OnInit {
       }
     })
   }
+
+  onReadById(id: string) {
+    this.userService.readByIdAsync(id).subscribe({
+      next: (resp: User) => {
+        this.user = resp;
+        this.setTab(1, "Edit");
+      },
+      error: (error: any) => {
+        this.messagesService.errorHandler(error);
+      }
+    })
+  }
+
+  onDelete(id: string) {
+    this.userService.deleteByIdAsync(id).subscribe({
+      next: (resp: any) => {
+        this.onRead(null);
+      },
+      error: (error: any) => {
+        this.messagesService.errorHandler(error);
+      }
+    })
+  }
+
 }
