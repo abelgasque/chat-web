@@ -3,9 +3,7 @@
         <app-user-list 
             [data]="users" 
             [totalRecords]="users.length"
-            (eventRead)="read($event)"
-            (eventReadById)="readById($event)"
-            (eventDeleteById)="delete($event)"
+            (eventRead)="onRead($event)"
         ></app-user-list>
     </mat-tab>
     <mat-tab label="Create"></mat-tab>
