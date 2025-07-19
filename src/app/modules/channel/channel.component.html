@@ -1,1 +1,11 @@
-<p>channel works!</p>
+<mat-tab-group [(selectedIndex)]="selectedTabIndex" mat-align-tabs="start">
+    <mat-tab label="Search">
+        <app-list [columns]="columns" [data]="channels" [totalRecords]="channels.length" (eventRead)="onRead($event)"
+            (eventReadById)="onReadById($event)" (eventDeleteById)="onDelete($event)"></app-list>
+    </mat-tab>
+    <mat-tab [label]="tabLabel">
+        <p>{{ channel?.name }}</p>
+        <p>{{ channel?.createdAt }}</p>
+        <p>{{ channel?.deletedAt }}</p>
+    </mat-tab>
+</mat-tab-group>
