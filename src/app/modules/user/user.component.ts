@@ -54,7 +54,7 @@ export class UserComponent implements OnInit {
 
   onRead() {
     this.sharedService.openSpinner();
-    this.service.readFilterAsync(this.filters)
+    this.service.readAsync(this.filters)
       .pipe(
         finalize(() => {
           this.sharedService.closeSpinner();
