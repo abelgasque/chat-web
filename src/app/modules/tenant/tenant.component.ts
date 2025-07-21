@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { finalize } from 'rxjs';
+
+import { PaginationDTO } from 'src/app/shared/models/DTO/pagination.dto';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 import { TenantService } from 'src/app/shared/services/tenant.service';
 
 @Component({
@@ -13,14 +17,28 @@ export class TenantComponent implements OnInit {
   public selectedTabIndex = 0;
   public tenants: any = [];
   public tenant: any = null;
+  public columns: any[];
+  public filters: PaginationDTO;
 
   constructor(
     private service: TenantService,
-    private messagesService: MessagesService
-  ) { }
+    private messagesService: MessagesService,
+    private sharedService: SharedService,
+  ) {
+    this.columns = [
+      { name: 'name', label: 'Name' },
+      { name: 'database', label: 'Database' },
+      { name: 'createdAt', label: 'Date Create' },
+      { name: 'deletedAt', label: 'Date Active' },
+    ];
+  }
 
   ngOnInit(): void {
-    this.onRead(null);
+    this.filters = {
+      page: 1,
+      pageSize: 25,
+    };
+    this.onRead();
   }
 
   setTab(index, title) {
@@ -28,37 +46,65 @@ export class TenantComponent implements OnInit {
     this.tabLabel = title;
   }
 
-  onRead(filter: any) {
-    this.service.readAsync().subscribe({
-      next: (resp: any) => {
-        this.tenants = resp;
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
+  handlePage(event: PaginationDTO) {
+    this.filters = event;
+    this.onRead();
+  }
+
+  onRead() {
+    this.sharedService.openSpinner();
+    this.service.readAsync(this.filters)
+      .pipe(
+        finalize(() => {
+          this.sharedService.closeSpinner();
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          this.tenants = resp;
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
   }
 
   onReadById(id: string) {
-    this.service.readByIdAsync(id).subscribe({
-      next: (resp: any) => {
-        this.tenant = resp;
-        this.setTab(1, "Edit");
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
+    this.sharedService.openSpinner();
+    this.service.readByIdAsync(id)
+      .pipe(
+        finalize(() => {
+          this.sharedService.closeSpinner();
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          this.tenant = resp;
+          this.setTab(1, "Edit");
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
   }
 
   onDelete(id: string) {
-    this.service.deleteByIdAsync(id).subscribe({
-      next: (resp: any) => {
-        this.onRead(null);
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
+    this.sharedService.openSpinner();
+    this.service.deleteByIdAsync(id)
+      .pipe(
+        finalize(() => {
+          const index = this.tenants.findIndex(item => item?.id === id);
+          this.tenants.splice(index, 1);
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          this.onRead();
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
   }
+
 }

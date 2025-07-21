@@ -28,7 +28,6 @@ import { MessageComponent } from './components/message/message.component';
 import { SupersetDashboardComponent } from './components/superset-dashboard/superset-dashboard.component';
 import { ListComponent } from './widgets/list/list.component';
 import { UserFormComponent } from './widgets/user-form/user-form.component';
-import { TenantListComponent } from './widgets/tenant-list/tenant-list.component';
 
 let components = [
   FooterComponent,
@@ -39,7 +38,6 @@ let components = [
   SupersetDashboardComponent,
   ListComponent,
   UserFormComponent,
-  TenantListComponent,
 ];
 @NgModule({
   declarations: components,
