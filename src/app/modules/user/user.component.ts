@@ -5,6 +5,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { finalize } from 'rxjs';
+import { PaginationDTO } from 'src/app/shared/models/DTO/pagination.dto';
 
 @Component({
   selector: 'app-user',
@@ -18,6 +19,7 @@ export class UserComponent implements OnInit {
   public columns: any[];
   public users: any = [];
   public user: any;
+  public filters: PaginationDTO;
 
   constructor(
     private service: UserService,
@@ -34,7 +36,11 @@ export class UserComponent implements OnInit {
       { name: 'loggedAt', label: 'Date Login' },
     ];
 
-    this.onRead(null);
+    this.filters = {
+      page: 1,
+      pageSize: 25,
+    };
+    this.onRead();
   }
 
   setTab(index, title) {
@@ -42,9 +48,14 @@ export class UserComponent implements OnInit {
     this.tabLabel = title;
   }
 
-  onRead(filter: any) {
+  handlePage(event: PaginationDTO) {
+    this.filters = event;
+    this.onRead();
+  }
+
+  onRead() {
     this.sharedService.openSpinner();
-    this.service.readAsync()
+    this.service.readFilterAsync(this.filters)
       .pipe(
         finalize(() => {
           this.sharedService.closeSpinner();
@@ -91,7 +102,7 @@ export class UserComponent implements OnInit {
       )
       .subscribe({
         next: (resp: any) => {
-          this.onRead(null);
+          this.onRead();
         },
         error: (error: any) => {
           this.messagesService.errorHandler(error);

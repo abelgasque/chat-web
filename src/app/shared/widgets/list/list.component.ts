@@ -52,7 +52,7 @@ export class ListComponent implements OnInit {
   handlePageEvent(event: PageEvent) {
     this.size = event.pageSize;
     this.page = (event.pageIndex + 1);
-    this.eventRead.emit({ size: this.size, page: this.page });
+    this.eventRead.emit({ pageSize: this.size, page: this.page });
   }
 
   clear() {
