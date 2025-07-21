@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { finalize } from 'rxjs';
 
+import { PaginationDTO } from 'src/app/shared/models/DTO/pagination.dto';
 import { ChannelService } from 'src/app/shared/services/channel.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-channel',
@@ -9,17 +12,20 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
   styleUrls: ['./channel.component.scss']
 })
 export class ChannelComponent implements OnInit {
-
   public tabLabel = "Create";
   public selectedTabIndex = 0;
   public columns: any[];
-  public channels: [] = [];
-  public channel: any = null;
+  public channels: any = [];
+  public channel: any;
+  public filters: PaginationDTO;
 
   constructor(
     private service: ChannelService,
+    private sharedService: SharedService,
     private messagesService: MessagesService
-  ) { 
+  ) { }
+
+  ngOnInit(): void {
     this.columns =[
       { name: 'name', label: 'Name' },
       { name: 'type', label: 'Type' },
@@ -27,10 +33,12 @@ export class ChannelComponent implements OnInit {
       { name: 'createdAt', label: 'Date Create' },
       { name: 'deleteAt', label: 'Date Delete' },
     ];
-  }
 
-  ngOnInit(): void {
-    this.onRead(null);
+    this.filters = {
+      page: 1,
+      pageSize: 25,
+    };
+    this.onRead();
   }
 
   setTab(index, title) {
@@ -38,38 +46,65 @@ export class ChannelComponent implements OnInit {
     this.tabLabel = title;
   }
 
-  onRead(filter: any) {
-    this.service.readAsync().subscribe({
-      next: (resp: any) => {
-        this.channels = resp;
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
+  handlePage(event: PaginationDTO) {
+    this.filters = event;
+    this.onRead();
+  }
+
+  onRead() {
+    this.sharedService.openSpinner();
+    this.service.readAsync(this.filters)
+      .pipe(
+        finalize(() => {
+          this.sharedService.closeSpinner();
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          this.channels = resp;
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
   }
 
   onReadById(id: string) {
-    this.service.readByIdAsync(id).subscribe({
-      next: (resp: any) => {
-        this.channel = resp;
-        this.setTab(1, "Edit");
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
+    this.sharedService.openSpinner();
+    this.service.readByIdAsync(id)
+      .pipe(
+        finalize(() => {
+          this.sharedService.closeSpinner();
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          this.channel = resp;
+          this.setTab(1, "Edit");
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
   }
 
   onDelete(id: string) {
-    this.service.deleteByIdAsync(id).subscribe({
-      next: (resp: any) => {
-        this.onRead(null);
-      },
-      error: (error: any) => {
-        this.messagesService.errorHandler(error);
-      }
-    })
-  }
+    this.sharedService.openSpinner();
 
+    this.service.deleteByIdAsync(id)
+      .pipe(
+        finalize(() => {
+          const index = this.channels.findIndex(item => item?.id === id);
+          this.channels.splice(index, 1);
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          this.onRead();
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
+  }
 }

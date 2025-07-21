@@ -39,24 +39,27 @@ export class CoreService {
 
   setTokenLocalStorage(token: TokenDTO) {
     this.token = token.accessToken;
-    this.username = token.data.username;
-    this.email = token.data.email;
+    // this.refresh_token = token.refresh_token;
 
-    localStorage.setItem('token', this.token);
+    const decodeToken = this.jwtHelperService.decodeToken(this.token);
+    this.username = decodeToken.unique_name;
+    this.email = decodeToken.email;
+
     localStorage.setItem('access_token', this.token);
+    // localStorage.setItem('refresh_token', this.refresh_token);
+    localStorage.setItem('id', decodeToken?.nameid);
     localStorage.setItem('username', this.username);
     localStorage.setItem('email', this.email);
   }
 
   removeTokenLocalStorage() {
     this.token = '';
-    this.refresh_token = '';
+    // this.refresh_token = '';
     this.username = '';
     this.email = '';
 
-    localStorage.removeItem('token');
     localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    // localStorage.removeItem('refresh_token');
     localStorage.removeItem('username');
     localStorage.removeItem('email');
   }
