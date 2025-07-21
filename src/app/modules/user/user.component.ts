@@ -29,11 +29,10 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.columns = [
-      { name: 'name', label: 'Name' },
+      { name: 'username', label: 'Name' },
       { name: 'email', label: 'Email' },
       { name: 'createdAt', label: 'Date Create' },
       { name: 'activeAt', label: 'Date Active' },
-      { name: 'loggedAt', label: 'Date Login' },
     ];
 
     this.filters = {
