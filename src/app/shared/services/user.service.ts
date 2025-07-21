@@ -28,7 +28,7 @@ export class UserService {
     let params = new HttpParams({
       fromObject: {
         page: filter.page.toString(),
-        size: filter.pageSize.toString()
+        pageSize: filter.pageSize.toString()
       }
     });
     const headers = this.coreService.setHeadersBearer();
