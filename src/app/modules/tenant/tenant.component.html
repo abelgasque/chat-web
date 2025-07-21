@@ -1,6 +1,6 @@
 <mat-tab-group [(selectedIndex)]="selectedTabIndex" mat-align-tabs="start">
     <mat-tab label="Search">
-        <app-list [data]="tenants.data" [totalRecords]="tenants.total" (eventRead)="handlePage($event)"
+        <app-list [columns]="columns" [data]="tenants.data" [totalRecords]="tenants.total" (eventRead)="handlePage($event)"
             (eventReadById)="onReadById($event)" (eventDeleteById)="onDelete($event)"></app-list>
     </mat-tab>
     <mat-tab [label]="tabLabel">
