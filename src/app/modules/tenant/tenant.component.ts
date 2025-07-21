@@ -11,7 +11,7 @@ export class TenantComponent implements OnInit {
 
   public tabLabel = "Create";
   public selectedTabIndex = 0;
-  public tenants: [] = [];
+  public tenants: any = [];
   public tenant: any = null;
 
   constructor(

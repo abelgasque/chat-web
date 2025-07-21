@@ -16,7 +16,7 @@ export class UserComponent implements OnInit {
   public tabLabel = "Create";
   public selectedTabIndex = 0;
   public columns: any[];
-  public users: any[] = [];
+  public users: any = [];
   public user: any;
 
   constructor(
@@ -28,7 +28,7 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.columns = [
       { name: 'name', label: 'Name' },
-      { name: 'email', label: 'email' },
+      { name: 'email', label: 'Email' },
       { name: 'createdAt', label: 'Date Create' },
       { name: 'activeAt', label: 'Date Active' },
       { name: 'loggedAt', label: 'Date Login' },

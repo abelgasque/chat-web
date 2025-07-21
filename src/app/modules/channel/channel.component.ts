@@ -13,7 +13,7 @@ export class ChannelComponent implements OnInit {
   public tabLabel = "Create";
   public selectedTabIndex = 0;
   public columns: any[];
-  public channels: [] = [];
+  public channels: any = [];
   public channel: any = null;
 
   constructor(

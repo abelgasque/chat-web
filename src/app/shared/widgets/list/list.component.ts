@@ -14,9 +14,9 @@ export class ListComponent implements OnInit {
     this.dataSource.data = value || [];
   }
 
-  @Input() totalRecords: number = 20;
+  @Input() totalRecords: number = 0;
   @Input() page: number = 1;
-  @Input() size: number = 20;
+  @Input() size: number = 25;
   @Input() form: FormGroup;
   @Input() columns: any[];
 
