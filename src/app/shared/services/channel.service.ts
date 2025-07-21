@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
 import { CoreService } from './core.service';
+import { PaginationDTO } from '../models/DTO/pagination.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -10,36 +11,43 @@ import { CoreService } from './core.service';
 export class ChannelService {
 
   private baseUrl: string;
-    
-      constructor(
-        private http: HttpClient,
-        private coreService: CoreService
-      ) {
-        this.baseUrl = `${environment.baseUrlApi}/channel`;
+
+  constructor(
+    private http: HttpClient,
+    private coreService: CoreService
+  ) {
+    this.baseUrl = `${environment.baseUrlApi}/channel`;
+  }
+
+  createAsync(entity: any) {
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.post<any>(`${this.baseUrl}`, entity, { headers });
+  }
+
+  readAsync(filter: PaginationDTO) {
+    let params = new HttpParams({
+      fromObject: {
+        page: filter.page.toString(),
+        size: filter.pageSize.toString()
       }
-    
-      createAsync(entity: any) {
-        const headers = this.coreService.setHeadersBearer();
-        return this.http.post<any>(`${this.baseUrl}`, entity, { headers });
-      }
-    
-      readAsync() {
-        const headers = this.coreService.setHeadersBearer();
-        return this.http.get<any>(`${this.baseUrl}`, { headers });
-      }
-    
-      readByIdAsync(id: string) {
-        const headers = this.coreService.setHeadersBearer();
-        return this.http.get<any>(`${this.baseUrl}/${id}`, { headers });
-      }
-    
-      updateAsync(entity: any) {
-        const headers = this.coreService.setHeadersBearer();
-        return this.http.put<any>(`${this.baseUrl}`, entity, { headers });
-      }
-    
-      deleteByIdAsync(id: string) {
-        const headers = this.coreService.setHeadersBearer();
-        return this.http.delete<any>(`${this.baseUrl}/${id}`, { headers });
-      }
+    });
+
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.get<any>(`${this.baseUrl}`, { headers, params });
+  }
+
+  readByIdAsync(id: string) {
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.get<any>(`${this.baseUrl}/${id}`, { headers });
+  }
+
+  updateAsync(entity: any) {
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.put<any>(`${this.baseUrl}`, entity, { headers });
+  }
+
+  deleteByIdAsync(id: string) {
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.delete<any>(`${this.baseUrl}/${id}`, { headers });
+  }
 }
