@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,6 +30,7 @@ import { ListComponent } from './widgets/list/list.component';
 import { UserFormComponent } from './widgets/user-form/user-form.component';
 import { ButtonMenuUserComponent } from './components/button-menu-user/button-menu-user.component';
 import { ButtonChatComponent } from './components/button-chat/button-chat.component';
+import { ChatWindowComponent } from './widgets/chat-window/chat-window.component';
 
 let components = [
   FooterComponent,
@@ -40,6 +42,7 @@ let components = [
   UserFormComponent,
   ButtonMenuUserComponent,
   ButtonChatComponent,
+  ChatWindowComponent,
 ];
 @NgModule({
   declarations: components,
@@ -50,6 +53,7 @@ let components = [
     FormsModule,
     ReactiveFormsModule,
 
+    MatSidenavModule,
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,

@@ -8,48 +8,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ChatComponent implements OnInit {
 
-  form!: FormGroup;
-  messages: { sender: string; text: string }[] = [];
   contacts = [
     { id: 1, name: 'Alice' },
     { id: 2, name: 'Bob' },
     { id: 3, name: 'Carlos' }
   ];
 
-  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+  constructor() { }
 
-  constructor(private fb: FormBuilder) { }
-
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      message: ['', Validators.required]
-    });
-  }
+  ngOnInit(): void {}
 
   selectContact(contact: any) {
-    // Lógica para carregar mensagens do contato
     console.log('Selecionado:', contact);
-  }
-
-  sendMessage() {
-    if (this.form.valid) {
-      const text = this.form.value.message;
-      this.messages.push({ sender: 'me', text });
-      this.form.reset();
-
-      // Exemplo: resposta automática
-      setTimeout(() => {
-        this.messages.push({ sender: 'bot', text: 'Received: ' + text });
-        this.scrollToBottom();
-      }, 500);
-
-      this.scrollToBottom();
-    }
-  }
-
-  scrollToBottom(): void {
-    setTimeout(() => {
-      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
-    });
   }
 }
