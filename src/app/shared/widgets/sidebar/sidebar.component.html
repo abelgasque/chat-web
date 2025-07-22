@@ -1,16 +1,7 @@
-<div class="row">
-    <ul class="col-12">
-        <li>
-            <button mat-icon-button (click)="sharedService.toggleSidebar()">
-                <mat-icon>close</mat-icon>
-            </button>
-        </li>
-        <li class="space__center" *ngFor="let props of user">
-            {{ props.value }}
-        </li>
-    </ul>
-</div>
 <mat-nav-list>
+    <button mat-icon-button (click)="sharedService.toggleSidebar()">
+        <mat-icon>close</mat-icon>
+    </button>
     <mat-list-item *ngFor="let item of menuItems" routerLinkActive="list-item-active" [routerLink]="[item.route]">
         <mat-icon>{{ item.icon }}</mat-icon>
         <span>{{ item.label }}</span>
