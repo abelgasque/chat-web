@@ -12,16 +12,20 @@
 </div> -->
 <button mat-button [routerLink]="['/security', 'sign-in']" *ngIf="this.coreService.token === ''">
     <mat-icon>login</mat-icon>
+    <span>Login</span>
 </button>
 
-<button mat-icon-button [routerLink]="['/security', 'sign-up']" *ngIf="this.coreService.token === ''">
-    <mat-icon>group_add</mat-icon>
+<button mat-button [matMenuTriggerFor]="menu" *ngIf="this.coreService.token !== ''">
+    <mat-icon>people_account</mat-icon>
+    <span> {{ this.coreService.username }}</span>
 </button>
-
-<button mat-icon-button (click)="sharedService.toggleSidebarChat()" *ngIf="this.coreService.token !== ''">
-    <mat-icon>chat</mat-icon>
-</button>
-
-<button mat-icon-button (click)="securityService.signOut()" *ngIf="this.coreService.token !== ''">
-    <mat-icon>logout</mat-icon>
-</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="sharedService.toggleSidebar()">
+        <mat-icon>chat</mat-icon>
+        <span>Inbox</span>
+    </button>
+    <button mat-menu-item (click)="securityService.signOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Loggout</span>
+    </button>
+</mat-menu>
