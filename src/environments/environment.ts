@@ -3,7 +3,7 @@ export const environment = {
   name: "ChatWeb",
   description: "Description",
   version: "1.0.0",
-  baseUrlApi: "http://localhost:8080/v1/api",
+  baseUrlApi: "http://localhost:8080",
   baseUrlMiddleware: "http://localhost:8081",
   supersetConfig: {
     url: "http://localhost:8088",

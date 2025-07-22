@@ -16,7 +16,7 @@ export class TenantService {
     private http: HttpClient,
     private coreService: CoreService
   ) {
-    this.baseUrl = `${environment.baseUrlApi}/tenant`;
+    this.baseUrl = `${environment.baseUrlApi}/v1/api/tenant`;
   }
 
   createAsync(entity: any) {

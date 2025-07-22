@@ -19,8 +19,8 @@ export class HomeComponent {
     this.linkSwagger =  `${environment.baseUrlApi}/swagger`;
     this.title = environment.name;
     this.description = environment.description;
-    this.username = "admin@admin.com";
-    this.password = "12345678";
+    this.username = "admin@example.com";
+    this.password = "admin";
   }
 
 }

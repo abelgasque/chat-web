@@ -31,7 +31,7 @@ export class ChannelComponent implements OnInit {
       { name: 'type', label: 'Type' },
       { name: 'lang', label: 'Lang' },
       { name: 'createdAt', label: 'Date Create' },
-      { name: 'deleteAt', label: 'Date Delete' },
+      { name: 'isActive', label: 'Active' },
     ];
 
     this.filters = {

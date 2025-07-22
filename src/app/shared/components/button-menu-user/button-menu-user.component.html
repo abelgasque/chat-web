@@ -1,0 +1,31 @@
+<!-- <div class="row">
+    <ul class="col-12">
+        <li>
+            <button mat-icon-button (click)="sharedService.toggleSidebar()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </li>
+        <li class="space__center" *ngFor="let props of user">
+            {{ props.value }}
+        </li>
+    </ul>
+</div> -->
+<button mat-button [routerLink]="['/security', 'sign-in']" *ngIf="this.coreService.token === ''">
+    <mat-icon>login</mat-icon>
+    <span>Login</span>
+</button>
+
+<button mat-button [matMenuTriggerFor]="menu" *ngIf="this.coreService.token !== ''">
+    <mat-icon>people_account</mat-icon>
+    <span> {{ this.coreService.username }}</span>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="sharedService.toggleSidebar()">
+        <mat-icon>chat</mat-icon>
+        <span>Inbox</span>
+    </button>
+    <button mat-menu-item (click)="securityService.signOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Loggout</span>
+    </button>
+</mat-menu>

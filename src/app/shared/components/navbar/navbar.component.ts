@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { CoreService } from 'src/app/shared/services/core.service';
-import { SecurityService } from 'src/app/shared/services/security.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +19,6 @@ export class NavbarComponent {
     public router: Router,
     public coreService: CoreService,
     public sharedService: SharedService,
-    public securityService: SecurityService,
   ) {
     this.name = environment.name;
   }
