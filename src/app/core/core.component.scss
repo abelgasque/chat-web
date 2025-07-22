@@ -16,3 +16,10 @@ mat-drawer-container {
     width: 100%;
     background-color: #F9F9FF;    
 }
+
+app-button-chat {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1500; /* Maior que mat-drawer (que geralmente usa z-index até 1000) */
+}
