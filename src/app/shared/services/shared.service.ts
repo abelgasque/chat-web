@@ -6,12 +6,17 @@ import { Injectable } from '@angular/core';
 export class SharedService {
 
   public openedSidebar: boolean = false;
+  public openedSidebarChat: boolean = false;
   public openedSpinner: boolean = false;
-  
+
   constructor() { }
 
   toggleSidebar() {
     this.openedSidebar = !this.openedSidebar;
+  }
+
+  toggleSidebarChat() {
+    this.openedSidebarChat = !this.openedSidebarChat;
   }
 
   openSpinner() {
