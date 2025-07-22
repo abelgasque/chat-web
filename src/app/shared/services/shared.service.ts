@@ -7,7 +7,7 @@ export class SharedService {
 
   public openedSidebar: boolean = false;
   public openedSpinner: boolean = false;
-
+  
   constructor() { }
 
   toggleSidebar() {

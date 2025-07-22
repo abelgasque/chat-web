@@ -13,6 +13,7 @@ import { HomeModule } from '../modules/home/home.module';
 import { SecurityModule } from '../modules/security/security.module';
 import { UserModule } from '../modules/user/user.module';
 import { TenantModule } from '../modules/tenant/tenant.module';
+import { ChatModule } from '../modules/chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { TenantModule } from '../modules/tenant/tenant.module';
     SecurityModule,
     UserModule,
     TenantModule,
+    ChatModule,
   ],
   providers: [
     AuthGuard,
