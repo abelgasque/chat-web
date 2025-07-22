@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 import { environment } from 'src/environments/environment';
 
@@ -15,7 +16,9 @@ export class HomeComponent {
   public username: string;
   public password: string;
 
-  constructor() {
+  constructor(
+    public sharedService: SharedService,
+  ) {
     this.linkSwagger =  `${environment.baseUrlApi}/swagger`;
     this.title = environment.name;
     this.description = environment.description;

@@ -1,5 +1,5 @@
 <div class="button-bot" *ngIf="router.url.includes('home')">
-    <button mat-fab [routerLink]="['/chat']">
+    <button mat-fab (click)="sharedService.toggleSidebarChat()">
         <mat-icon>chat</mat-icon>
     </button>
 </div>
