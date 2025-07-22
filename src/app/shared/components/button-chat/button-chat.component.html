@@ -1,4 +1,4 @@
-<div class="button-bot">
+<div class="button-bot" *ngIf="router.url.includes('home')">
     <button mat-fab [routerLink]="['/chat']">
         <mat-icon>chat</mat-icon>
     </button>
