@@ -3,21 +3,11 @@
         <mat-icon>menu</mat-icon>
     </button>
 
-    <span>
-        <a href="#" [routerLink]="['']">{{ name }}</a>
+    <span class="example-spacer">
+        <button mat-button href="#" [routerLink]="['']">
+            {{ name }}
+        </button>
     </span>
 
-    <span class="example-spacer"></span>
-
-    <button mat-button [routerLink]="['/security', 'sign-in']" *ngIf="this.coreService.token === ''">
-        <mat-icon>login</mat-icon>
-    </button>
-
-    <button mat-icon-button [routerLink]="['/security', 'sign-up']" *ngIf="this.coreService.token === ''">
-        <mat-icon>group_add</mat-icon>
-    </button>
-
-    <button mat-icon-button (click)="securityService.signOut()" *ngIf="this.coreService.token !== ''">
-        <mat-icon>logout</mat-icon>
-    </button>
+    <app-button-menu-user></app-button-menu-user>
 </mat-toolbar>
