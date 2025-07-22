@@ -32,7 +32,8 @@ export class UserComponent implements OnInit {
       { name: 'username', label: 'Name' },
       { name: 'email', label: 'Email' },
       { name: 'createdAt', label: 'Date Create' },
-      { name: 'activeAt', label: 'Date Active' },
+      { name: 'isActive', label: 'Active' },
+      { name: 'isBlock', label: 'Block' },
     ];
 
     this.filters = {

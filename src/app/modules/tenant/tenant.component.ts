@@ -29,7 +29,7 @@ export class TenantComponent implements OnInit {
       { name: 'name', label: 'Name' },
       { name: 'database', label: 'Database' },
       { name: 'createdAt', label: 'Date Create' },
-      { name: 'deletedAt', label: 'Date Active' },
+      { name: 'isActive', label: 'Active' },
     ];
   }
 

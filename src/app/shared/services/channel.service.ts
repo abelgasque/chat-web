@@ -16,7 +16,7 @@ export class ChannelService {
     private http: HttpClient,
     private coreService: CoreService
   ) {
-    this.baseUrl = `${environment.baseUrlApi}/channel`;
+    this.baseUrl = `${environment.baseUrlApi}/v1/api/channel`;
   }
 
   createAsync(entity: any) {

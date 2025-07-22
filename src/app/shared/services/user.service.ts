@@ -16,7 +16,7 @@ export class UserService {
     private http: HttpClient,
     private coreService: CoreService
   ) {
-    this.baseUrl = `${environment.baseUrlApi}/user`;
+    this.baseUrl = `${environment.baseUrlApi}/v1/api/user`;
   }
 
   createAsync(entity: User) {
