@@ -12,7 +12,7 @@ const routes: Routes = [
     component: CoreComponent,
     children: [
       {
-        path: '',
+        path: 'home',
         loadChildren: () => import('src/app/modules/home/home.module').then(m => m.HomeModule)
       },
       {
@@ -43,14 +43,9 @@ const routes: Routes = [
         //canActivate: [AuthGuard],
         loadChildren: () => import('src/app/modules/bot/bot.module').then(m => m.BotModule)
       },
-      {
-        path: 'chat',
-        //canActivate: [AuthGuard],
-        loadChildren: () => import('src/app/modules/chat/chat.module').then(m => m.ChatModule)
-      },
       { path: 'page-not-found', component: PageRedirectComponent },
       { path: 'page-not-authorized', component: PageRedirectComponent },
-      { path: '', redirectTo: '', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'page-not-found' },
     ]
   }
