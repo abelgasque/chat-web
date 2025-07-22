@@ -6,10 +6,12 @@ import { SupersetRoutingModule } from './superset-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SupersetComponent } from './superset.component';
 import { SupersetService } from 'src/app/shared/services/superset.service';
+import { SupersetDashboardComponent } from './superset-dashboard/superset-dashboard.component';
 
 @NgModule({
   declarations: [
-    SupersetComponent
+    SupersetComponent,
+    SupersetDashboardComponent,
   ],
   imports: [
     CommonModule,

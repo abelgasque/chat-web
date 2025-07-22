@@ -25,10 +25,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './widgets/sidebar/sidebar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MessageComponent } from './components/message/message.component';
-import { SupersetDashboardComponent } from './components/superset-dashboard/superset-dashboard.component';
 import { ListComponent } from './widgets/list/list.component';
 import { UserFormComponent } from './widgets/user-form/user-form.component';
 import { ButtonMenuUserComponent } from './components/button-menu-user/button-menu-user.component';
+import { ButtonChatComponent } from './components/button-chat/button-chat.component';
 
 let components = [
   FooterComponent,
@@ -36,10 +36,10 @@ let components = [
   SidebarComponent,
   SpinnerComponent,
   MessageComponent,
-  SupersetDashboardComponent,
   ListComponent,
   UserFormComponent,
   ButtonMenuUserComponent,
+  ButtonChatComponent,
 ];
 @NgModule({
   declarations: components,

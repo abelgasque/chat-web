@@ -1,0 +1,36 @@
+<mat-drawer-container class="chat-wrapper">
+
+  <mat-drawer mode="side" opened>
+    <div class="contact-list">
+      <h3>Conversas</h3>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let contact of contacts" (click)="selectContact(contact)">
+          <mat-icon matListIcon>account_circle</mat-icon>
+          <span matLine>{{ contact.name }}</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="chat-container mat-elevation-z2">
+
+      <div class="message-list" #scrollContainer>
+        <div *ngFor="let msg of messages" [ngClass]="{'sent': msg.sender === 'me', 'received': msg.sender !== 'me'}" class="message-bubble">
+          {{ msg.text }}
+        </div>
+      </div>
+
+      <form class="chat-form" [formGroup]="form" (ngSubmit)="sendMessage()">
+        <mat-form-field class="input-field" appearance="outline">
+          <input matInput placeholder="Type a message" formControlName="message" autocomplete="off">
+        </mat-form-field>
+        <button mat-icon-button type="submit" color="primary" [disabled]="!form.valid">
+          <mat-icon>send</mat-icon>
+        </button>
+      </form>
+
+    </div>
+  </mat-drawer-content>
+
+</mat-drawer-container>
