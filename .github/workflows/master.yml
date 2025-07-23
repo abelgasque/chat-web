@@ -34,7 +34,7 @@ jobs:
         APP_DEBUG: production
         APP_VERSION: ${{ github.ref_name }} 
         APP_NAME: ${{ github.repository }}
-        APP_DESCRIPTION: git_actions
+        APP_DESCRIPTION: Description
         APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
         SUPERSET_BASE_URL: ${{ secrets.SUPERSET_BASE_URL }}
         SUPERSET_EMBED_ADMIN_ID: ${{ secrets.SUPERSET_EMBED_ADMIN_ID }}
