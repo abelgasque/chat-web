@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
+  userId: string;
   contacts = [
     { id: 1, name: 'Alice' },
     { id: 2, name: 'Bob' },
@@ -22,10 +23,14 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   private messageSub?: Subscription;
 
-  constructor(private websocketService: WebsocketService) {}
+  constructor(
+    private websocketService: WebsocketService,
+  ) {
+    this.userId = localStorage.getItem('id') || '';
+  }
 
   ngOnInit(): void {
-    this.websocketService.connect(environment.baseUrlWs);
+    this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.userId}`);
     this.messageSub = this.websocketService.onMessage().subscribe((msg) => {
       this.messages.push({ sender: 'bot', text: msg });
     });
