@@ -8,6 +8,8 @@ import { MessagesService } from '../services/messages.service';
 import { SecurityService } from '../services/security.service';
 import { SharedService } from '../services/shared.service';
 import { TokenService } from '../services/token.service';
+import { TokenDTO } from '../models/DTO/token.dto';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +29,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const token = this.coreService.token;
+    const token = this.coreService.getTokenLocalStorage();
 
     if (!token) {
       this.router.navigate(['/page-not-authorized']);
@@ -37,9 +39,9 @@ export class AuthGuard implements CanActivate {
     if (this.jwtHelperService.isTokenExpired(token)) {
       this.sharedService.openSpinner();
       this.tokenService.refresh({
-        refresh_token: this.coreService.refresh_token
+        refreshToken: this.coreService.getRefreshTokenLocalStorage()
       }).subscribe({
-        next: (resp: any) => {
+        next: (resp: TokenDTO) => {
           this.coreService.setTokenLocalStorage(resp);
           this.router.navigate([state.url]);
           this.sharedService.closeSpinner();
