@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN ng build --configuration=production
+RUN npm run build --configuration=production
 
 FROM nginx:alpine AS runtime
 EXPOSE 80
