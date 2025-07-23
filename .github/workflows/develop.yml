@@ -1,4 +1,4 @@
-name: Deploy Docker
+name: Build and Deploy develop
 on:
   push:
     branches:
@@ -6,34 +6,30 @@ on:
 
 jobs:
   build:
-    name: Deploy docker
+    name: Build and Deploy develop
     runs-on: ubuntu-latest
     environment: production
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
 
-    - name: Notify Discord (Deploy docker)
+    - name: Notify Discord (Build Started)
       run: |
         curl -H "Content-Type: application/json" \
         -X POST \
         -d '{"username": "Bot GitHub", "content": "🚀 **Build iniciado!**\nRepositório: `${{ github.repository }}`\nAmbiente: Produção\nBranch: `${{ github.ref_name }}`"}' \
         ${{ secrets.DISCORD_WEBHOOK_URL }} || true
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        node-version: '23.x'
 
-    - name: Build and push Docker image (branch develop)
-      if: github.ref == 'refs/heads/develop'
-      run: |
-        docker build --platform=linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/chat-web:latest .
-        Deploy docker ${{ secrets.DOCKER_USERNAME }}/chat-web:latest
+    - name: Install dependencies
+      run: npm install --force
+
+    - name: Prebuild Angular App
+      run: npm run build-prod
       env:
         APP_DEBUG: production
         APP_VERSION: ${{ github.ref_name }} 
@@ -43,20 +39,20 @@ jobs:
         APP_WS_URL: ${{ secrets.APP_WS_URL }}
         SUPERSET_BASE_URL: ${{ secrets.SUPERSET_BASE_URL }}
         SUPERSET_EMBED_ADMIN_ID: ${{ secrets.SUPERSET_EMBED_ADMIN_ID }}
+  
+    - name: Build Angular App
+      run: npm run build -- --output-path=dist --base-href /chat-web/ --configuration=production
 
-    - name: Build and push Docker image (tagged release)
-      if: startsWith(github.ref, 'refs/tags/')
-      run: |
-        docker build --platform=linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/chat-web:${{ github.ref_name }} .
-        Deploy docker ${{ secrets.DOCKER_USERNAME }}/chat-web:${{ github.ref_name }}
-      env:
-        APP_DEBUG: production
-        APP_VERSION: ${{ github.ref_name }} 
-        APP_NAME: ${{ github.repository }}
-        APP_DESCRIPTION: Description
-        APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
-        SUPERSET_BASE_URL: ${{ secrets.SUPERSET_BASE_URL }}
-        SUPERSET_EMBED_ADMIN_ID: ${{ secrets.SUPERSET_EMBED_ADMIN_ID }}
+    - name: Install Github Pages
+      run: npm i -g angular-cli-ghpages
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages
+        folder: dist
+        token: ${{ secrets.GH_TOKEN }}
+
   report-status:
     name: Report Build Status
     needs: build
