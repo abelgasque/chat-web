@@ -10,7 +10,7 @@ import { TokenDTO } from '../models/DTO/token.dto';
 export class CoreService {
 
   public token: string;
-  public refresh_token: string;
+  public refreshToken: string;
   public username: string;
   public email: string;
 
@@ -18,7 +18,7 @@ export class CoreService {
     private jwtHelperService: JwtHelperService,
   ) {
     this.token = this.getTokenLocalStorage();
-    this.refresh_token = localStorage.getItem('refresh_token') || '';
+    this.refreshToken = this.getRefreshTokenLocalStorage();
     this.username = localStorage.getItem('username') || '';
     this.email = localStorage.getItem('email') || '';
   }
@@ -39,14 +39,14 @@ export class CoreService {
 
   setTokenLocalStorage(token: TokenDTO) {
     this.token = token.accessToken;
-    // this.refresh_token = token.refresh_token;
+    this.refreshToken = token.refreshToken;
 
     const decodeToken = this.jwtHelperService.decodeToken(this.token);
     this.username = decodeToken.unique_name;
     this.email = decodeToken.email;
 
     localStorage.setItem('access_token', this.token);
-    // localStorage.setItem('refresh_token', this.refresh_token);
+    localStorage.setItem('refresh_token', this.refreshToken);
     localStorage.setItem('id', decodeToken?.nameid);
     localStorage.setItem('username', this.username);
     localStorage.setItem('email', this.email);
@@ -54,12 +54,12 @@ export class CoreService {
 
   removeTokenLocalStorage() {
     this.token = '';
-    // this.refresh_token = '';
+    this.refreshToken = '';
     this.username = '';
     this.email = '';
 
     localStorage.removeItem('access_token');
-    // localStorage.removeItem('refresh_token');
+    localStorage.removeItem('refresh_token');
     localStorage.removeItem('username');
     localStorage.removeItem('email');
   }
