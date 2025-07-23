@@ -6,6 +6,7 @@ const path = require('path');
 
 const {
   APP_BASE_URL,
+  APP_WS_URL,
   APP_NAME,
   APP_DESCRIPTION,
   APP_VERSION,
@@ -20,6 +21,7 @@ try {
     description: APP_DESCRIPTION,
     version: APP_VERSION,
     baseUrlApi: APP_BASE_URL,
+    baseUrlWs: APP_WS_URL,
     supersetConfig: {
       url: SUPERSET_BASE_URL,
       adminId: SUPERSET_EMBED_ADMIN_ID
