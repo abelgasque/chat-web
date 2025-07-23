@@ -13,7 +13,7 @@
   </mat-drawer>
 
   <mat-drawer-content>
-    <app-chat-window></app-chat-window>
+    <app-chat-window [messages]="messages" (eventSendMessage)="sendMessage($event)"></app-chat-window>
   </mat-drawer-content>
 
 </mat-drawer-container>
