@@ -4,11 +4,11 @@ WORKDIR /app
 RUN npm install -g @angular/cli
 
 COPY ./package.json .
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 COPY . .
 
-RUN ng build --configuration=production
+RUN npm run build --configuration=production
 
 FROM nginx:alpine AS runtime
 EXPOSE 80
