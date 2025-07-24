@@ -4,7 +4,7 @@ export const environment = {
   description: "Description",
   version: "1.0.0",
   baseUrlApi: "http://localhost:8080",
-  baseUrlMiddleware: "http://localhost:8081",
+  baseUrlWs: "ws://localhost:9090",
   supersetConfig: {
     url: "http://localhost:8088",
     adminId: "819810c9-c9e3-4a3f-817f-54622d4fae10"
