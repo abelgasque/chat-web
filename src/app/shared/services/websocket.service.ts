@@ -29,9 +29,9 @@ export class WebsocketService {
     };
   }
 
-  sendMessage(msg: string): void {
+  sendMessage(msg: any): void {
     if (this.socket?.readyState === WebSocket.OPEN) {
-      this.socket.send(msg);
+      this.socket.send(JSON.stringify(msg));
     } else {
       console.warn('⛔ WebSocket não está conectado.');
     }
