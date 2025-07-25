@@ -27,9 +27,9 @@ jobs:
 
     - name: Install dependencies
       run: npm install --force
-
-    - name: Prebuild Angular App
-      run: npm run build-prod
+  
+    - name: Build Angular App
+      run: npm run build-deploy -- --output-path=dist --base-href /chat-web/ --configuration=production
       env:
         APP_DEBUG: production
         APP_VERSION: ${{ github.ref_name }} 
@@ -39,9 +39,6 @@ jobs:
         APP_WS_URL: ${{ secrets.APP_WS_URL }}
         SUPERSET_BASE_URL: ${{ secrets.SUPERSET_BASE_URL }}
         SUPERSET_EMBED_ADMIN_ID: ${{ secrets.SUPERSET_EMBED_ADMIN_ID }}
-  
-    - name: Build Angular App
-      run: npm run build -- --output-path=dist --base-href /chat-web/ --configuration=production
 
     - name: Install Github Pages
       run: npm i -g angular-cli-ghpages
