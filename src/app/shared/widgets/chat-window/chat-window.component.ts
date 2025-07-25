@@ -10,9 +10,11 @@ export class ChatWindowComponent implements OnInit {
 
   form!: FormGroup;
   
+  @Input() contact: any = undefined;
   @Input() messages: { sender: string; text: string }[] = [];
 
   @Output() eventSendMessage = new EventEmitter<any>();
+  @Output() eventCloseContact = new EventEmitter<any>();
   
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 

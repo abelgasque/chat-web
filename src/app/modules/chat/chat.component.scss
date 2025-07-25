@@ -5,8 +5,19 @@
 
 .contact-list {
   width: 250px;
-  padding: 1rem;
   background: #F0F0F0;
   height: 100%;
   overflow-y: auto;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      margin: 0;
+      padding: 16px;
+      font-size: 1.2em;
+    }
+  }
 }

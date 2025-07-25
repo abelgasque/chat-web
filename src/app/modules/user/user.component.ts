@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
   constructor(
     private service: UserService,
     private sharedService: SharedService,
-    private messagesService: MessagesService
+    private messagesService: MessagesService,
   ) { }
 
   ngOnInit(): void {
