@@ -24,6 +24,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './widgets/sidebar/sidebar.component';
+import { SidebarContactComponent } from './widgets/sidebar-contact/sidebar-contact.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MessageComponent } from './components/message/message.component';
 import { ListComponent } from './widgets/list/list.component';
@@ -36,6 +37,7 @@ let components = [
   FooterComponent,
   NavbarComponent,
   SidebarComponent,
+  SidebarContactComponent,
   SpinnerComponent,
   MessageComponent,
   ListComponent,
