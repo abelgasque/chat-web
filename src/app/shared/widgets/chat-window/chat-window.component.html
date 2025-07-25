@@ -1,7 +1,17 @@
 <div class="chat-container mat-elevation-z2">
   <div class="chat-header" *ngIf="contact">
-    <mat-icon>peoples</mat-icon>
-    <div class="contact-name">Contato: {{ contact?.username }}</div>
+    <img
+      class="contact-avatar"
+      [src]="contact.avatar || './assets/images/avatar-default.png'"
+      alt="{{ contact.username }}"
+    />
+    <div class="contact-info">
+      <div class="contact-name">{{ contact.username }}</div>
+      <div class="contact-status">Online</div> <!-- opcional -->
+    </div>
+    <button mat-icon-button class="more-btn">
+      <mat-icon>more_vert</mat-icon>
+    </button>
   </div>
 
   <div class="message-list" #scrollContainer>

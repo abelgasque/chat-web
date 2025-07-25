@@ -1,25 +1,27 @@
 <mat-drawer-container class="chat-wrapper">
 
-  <mat-drawer mode="side" [opened]="sharedService.openedSidebarChat">
-    <div class="contact-list">
-      <div class="header">
-        <h3>Contacts</h3>
-        <button mat-icon-button (click)="toggleSidebarChat()">
-          <mat-icon matListIcon>close</mat-icon>
-        </button>
-      </div>
-      <mat-nav-list>
-        <mat-list-item *ngFor="let contact of contacts" (click)="selectContact(contact)">
-          <mat-icon matListIcon>account_circle</mat-icon>
-          <span matLine>{{ contact.username }}</span>
-        </mat-list-item>
-      </mat-nav-list>
-    </div>
-  </mat-drawer>
+    <mat-drawer mode="side" [opened]="sharedService.openedSidebarChat">
+        <div class="contact-list">
+            <div class="contact-header">
+                <span class="contact-title">Contacts</span>
+                <button mat-icon-button (click)="toggleSidebarChat()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <mat-nav-list>
+                <mat-list-item *ngFor="let contact of contacts" (click)="selectContact(contact)"
+                    [ngClass]="{ 'selected': selectedContact?.id === contact.id }">
+                    <img matListAvatar src="../../../assets/images/avatar-default.png" alt="{{ contact.username }}"
+                        class="avatar" />
+                    <span matLine class="username">{{ contact.username }}</span>
+                </mat-list-item>
+            </mat-nav-list>
+        </div>
+    </mat-drawer>
 
-  <mat-drawer-content>
-    <app-chat-window [messages]="messages" [contact]="selectedContact"
-      (eventSendMessage)="sendMessage($event)"></app-chat-window>
-  </mat-drawer-content>
+    <mat-drawer-content>
+        <app-chat-window [messages]="messages" [contact]="selectedContact"
+            (eventSendMessage)="sendMessage($event)"></app-chat-window>
+    </mat-drawer-content>
 
 </mat-drawer-container>
