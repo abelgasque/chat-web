@@ -24,7 +24,7 @@ export class UserService {
     return this.http.post<any>(`${this.baseUrl}`, entity, { headers });
   }
 
-  readAsync(filter: PaginationDTO) {
+  readAsync(filter: any) {
     let params = new HttpParams({
       fromObject: {
         page: filter.page.toString(),
@@ -33,6 +33,26 @@ export class UserService {
     });
     const headers = this.coreService.setHeadersBearer();
     return this.http.get<any>(`${this.baseUrl}`, { headers, params });
+  }
+
+  readMessagesAsync(filter: any) {
+    let params = new HttpParams({
+      fromObject: {
+        page: filter.page.toString(),
+        pageSize: filter.pageSize.toString()
+      }
+    });
+
+    if (filter.senderId) {
+      params = params.set('senderId', filter.senderId);
+    }
+
+    if (filter.receiverId) {
+      params = params.set('receiverId', filter.receiverId);
+    }
+
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.get<any>(`${this.baseUrl}/messages`, { headers, params });
   }
 
   readByIdAsync(id: string) {
