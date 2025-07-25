@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { SharedService } from './shared.service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,28 +10,20 @@ import { SharedService } from './shared.service';
 export class MessagesService {
 
   constructor(
-    // private messageService: MessageService,
+    private notificationService: NotificationService,
     private sharedService: SharedService
   ) { }
 
   success(title: string, description: string) {
     console.log(title, description);
     this.sharedService.closeSpinner();
-    // this.messageService.add({
-    //   severity: 'success',
-    //   summary: title,
-    //   detail: description
-    // });
+    this.notificationService.success(description);
   }
 
   error(title: string, description: string) {
     console.log(title, description);
     this.sharedService.closeSpinner();
-    // this.messageService.add({
-    //   severity: 'error',
-    //   summary: title,
-    //   detail: description
-    // });
+    this.notificationService.error(description);
   }
 
   public errorHandler(error: any) {

@@ -1,27 +1,38 @@
 <div class="chat-container mat-elevation-z2">
   <div class="chat-header" *ngIf="contact">
-    <img
-      class="contact-avatar"
-      [src]="contact.avatar || './assets/images/avatar-default.png'"
-      alt="{{ contact.username }}"
-    />
+    <img class="contact-avatar" [src]="contact.avatar || './assets/images/avatar-default.png'"
+      alt="{{ contact.username }}" />
     <div class="contact-info">
       <div class="contact-name">{{ contact.username }}</div>
-      <div class="contact-status">Online</div> <!-- opcional -->
+      <div class="contact-status">Online</div>
     </div>
     <button mat-icon-button class="more-btn">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
 
-  <div class="message-list" #scrollContainer>
-    <div *ngFor="let msg of messages" [ngClass]="{'sent': msg.sender === 'me', 'received': msg.sender !== 'me'}"
-         class="message-bubble">
-      {{ msg.text }}
+  <div class="message-list" #scrollContainer *ngIf="contact">
+    <div *ngFor="let msg of messages"
+      [ngClass]="{ 'sent': senderId === msg.senderId, 'received': contact.id === msg.senderId }" class="message-bubble">
+      <div class="message-text">{{ msg.message }}</div>
+
+      <div class="message-meta">
+        <span class="timestamp">{{ msg.sentAt | date:'HH:mm' }}</span>
+
+        <ng-container *ngIf="senderId === msg.senderId">
+          <mat-icon class="status-icon" [ngClass]="{
+              'sent': !msg.receiverAt,
+              'received': msg.receiverAt && !msg.readAt,
+              'read': msg.readAt
+            }">
+            {{ !msg.receiverAt ? 'check' : 'done_all' }}
+          </mat-icon>
+        </ng-container>
+      </div>
     </div>
   </div>
 
-  <form class="chat-form" [formGroup]="form" (ngSubmit)="sendMessage()">
+  <form class="chat-form" [formGroup]="form" (ngSubmit)="sendMessage()" *ngIf="contact">
     <mat-form-field class="input-field" appearance="outline">
       <input matInput placeholder="Type a message" formControlName="message" autocomplete="off">
     </mat-form-field>

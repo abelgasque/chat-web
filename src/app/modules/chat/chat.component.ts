@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
 
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { WebsocketService } from 'src/app/shared/services/websocket.service';
@@ -28,6 +29,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private messagesService: MessagesService,
     public sharedService: SharedService,
+    private notificationService: NotificationService,
   ) {
     this.token = localStorage.getItem('access_token') || '';
     this.userId = localStorage.getItem('id') || '';
@@ -36,7 +38,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.userId}&token=${this.token}`);
     this.messageSub = this.websocketService.onMessage().subscribe((msg) => {
-      this.messages.push({ sender: 'bot', text: msg });
+      this.notificationService.success(msg);
     });
     this.onRead();
   }
@@ -47,7 +49,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   toggleSidebarChat() {
-    if (this.sharedService.openedSidebarChat) {
+    if (this.sharedService.openedSidebarContact) {
       this.selectedContact = undefined;
       this.messages = [];
     }
@@ -66,7 +68,11 @@ export class ChatComponent implements OnInit, OnDestroy {
         toUserId: this.selectedContact.id,
         message: message
       });
-      this.messages.push({ sender: 'me', text: message });
+      this.messages.push({
+        senderId: this.userId,
+        message: message,
+        sentAt: new Date(),
+      });
     }
   }
 
@@ -74,13 +80,12 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.sharedService.openSpinner();
     this.userService.readAsync({
       page: 1,
-      pageSize: 100,
+      pageSize: 25,
       active: true,
     })
       .pipe(
         finalize(() => {
           this.sharedService.closeSpinner();
-          this.sharedService.openedSidebarChat = true;
         })
       )
       .subscribe({
@@ -104,17 +109,12 @@ export class ChatComponent implements OnInit, OnDestroy {
       .pipe(
         finalize(() => {
           this.sharedService.closeSpinner();
-          this.sharedService.openedSidebarChat = true;
         })
       )
       .subscribe({
         next: (resp: any) => {
           for (const message of resp.data) {
-            if (message.senderId === senderId) {
-              this.messages.unshift({ sender: 'me', text: message.message });
-            } else {
-              this.messages.unshift({ sender: 'bot', text: message.message });
-            }
+            this.messages.unshift(message);
           }
         },
         error: (error: any) => {
