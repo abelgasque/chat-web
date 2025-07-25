@@ -42,7 +42,7 @@ jobs:
           --build-arg SUPERSET_BASE_URL=${{ secrets.SUPERSET_BASE_URL }} \
           --build-arg SUPERSET_EMBED_ADMIN_ID=${{ secrets.SUPERSET_EMBED_ADMIN_ID }} \
           -t ${{ secrets.DOCKER_USERNAME }}/chat-web:latest .
-        docker push ${{ secrets.DOCKER_USERNAME }}/chat-web:latest
+        Deploy docker ${{ secrets.DOCKER_USERNAME }}/chat-web:latest
       env:
         APP_DEBUG: production
         APP_VERSION: ${{ github.ref_name }} 
