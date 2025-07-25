@@ -32,8 +32,17 @@ jobs:
     - name: Build and push Docker image (branch master)
       if: github.ref == 'refs/heads/master'
       run: |
-        docker build --platform=linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/chat-web:latest .
-        Deploy docker ${{ secrets.DOCKER_USERNAME }}/chat-web:latest
+        docker build --platform=linux/amd64 \
+          --build-arg APP_DEBUG=production \
+          --build-arg APP_VERSION=${{ github.ref_name }} \
+          --build-arg APP_NAME=${{ github.repository }} \
+          --build-arg APP_DESCRIPTION="Description" \
+          --build-arg APP_BASE_URL=${{ secrets.APP_BASE_URL }} \
+          --build-arg APP_WS_URL=${{ secrets.APP_WS_URL }} \
+          --build-arg SUPERSET_BASE_URL=${{ secrets.SUPERSET_BASE_URL }} \
+          --build-arg SUPERSET_EMBED_ADMIN_ID=${{ secrets.SUPERSET_EMBED_ADMIN_ID }} \
+          -t ${{ secrets.DOCKER_USERNAME }}/chat-web:latest .
+        docker push ${{ secrets.DOCKER_USERNAME }}/chat-web:latest
       env:
         APP_DEBUG: production
         APP_VERSION: ${{ github.ref_name }} 
