@@ -34,12 +34,31 @@ jobs:
       run: |
         docker build --platform=linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/chat-web:latest .
         Deploy docker ${{ secrets.DOCKER_USERNAME }}/chat-web:latest
+      env:
+        APP_DEBUG: production
+        APP_VERSION: ${{ github.ref_name }} 
+        APP_NAME: ${{ github.repository }}
+        APP_DESCRIPTION: Description
+        APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+        APP_WS_URL: ${{ secrets.APP_WS_URL }}
+        SUPERSET_BASE_URL: ${{ secrets.SUPERSET_BASE_URL }}
+        SUPERSET_EMBED_ADMIN_ID: ${{ secrets.SUPERSET_EMBED_ADMIN_ID }}
 
     - name: Build and push Docker image (tagged release)
       if: startsWith(github.ref, 'refs/tags/')
       run: |
         docker build --platform=linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/chat-web:${{ github.ref_name }} .
         Deploy docker ${{ secrets.DOCKER_USERNAME }}/chat-web:${{ github.ref_name }}
+      env:
+        APP_DEBUG: production
+        APP_VERSION: ${{ github.ref_name }} 
+        APP_NAME: ${{ github.repository }}
+        APP_DESCRIPTION: Description
+        APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+        APP_WS_URL: ${{ secrets.APP_WS_URL }}
+        SUPERSET_BASE_URL: ${{ secrets.SUPERSET_BASE_URL }}
+        SUPERSET_EMBED_ADMIN_ID: ${{ secrets.SUPERSET_EMBED_ADMIN_ID }}
+
   report-status:
     name: Report Build Status
     needs: build
