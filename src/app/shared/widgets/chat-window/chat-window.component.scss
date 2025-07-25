@@ -9,6 +9,27 @@
   background-size: contain;
 }
 
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.contact-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
 .message-list {
   display: flex;
   flex-direction: column;

@@ -46,9 +46,16 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.messageSub?.unsubscribe();
   }
 
+  toggleSidebarChat() {
+    if (this.sharedService.openedSidebarChat) {
+      this.selectedContact = undefined;
+      this.messages = [];
+    }
+    this.sharedService.toggleSidebarChat();
+  }
+
   selectContact(contact: any) {
     this.messages = [];
-    this.messages.push({ sender: 'bot', text: `You have selected ${contact.username}` });
     this.selectedContact = contact;
     this.onReadMessages(this.userId, contact.id);
   }
@@ -102,13 +109,11 @@ export class ChatComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
-          console.log(resp);
-
           for (const message of resp.data) {
             if (message.senderId === senderId) {
-              this.messages.push({ sender: 'me', text: message.message });
+              this.messages.unshift({ sender: 'me', text: message.message });
             } else {
-              this.messages.push({ sender: 'bot', text: message.message });
+              this.messages.unshift({ sender: 'bot', text: message.message });
             }
           }
         },

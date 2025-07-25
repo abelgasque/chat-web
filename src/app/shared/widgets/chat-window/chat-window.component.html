@@ -1,19 +1,22 @@
 <div class="chat-container mat-elevation-z2">
+  <div class="chat-header" *ngIf="contact">
+    <mat-icon>peoples</mat-icon>
+    <div class="contact-name">Contato: {{ contact?.username }}</div>
+  </div>
 
-    <div class="message-list" #scrollContainer>
-        <div *ngFor="let msg of messages" [ngClass]="{'sent': msg.sender === 'me', 'received': msg.sender !== 'me'}"
-            class="message-bubble">
-            {{ msg.text }}
-        </div>
+  <div class="message-list" #scrollContainer>
+    <div *ngFor="let msg of messages" [ngClass]="{'sent': msg.sender === 'me', 'received': msg.sender !== 'me'}"
+         class="message-bubble">
+      {{ msg.text }}
     </div>
+  </div>
 
-    <form class="chat-form" [formGroup]="form" (ngSubmit)="sendMessage()">
-        <mat-form-field class="input-field" appearance="outline">
-            <input matInput placeholder="Type a message" formControlName="message" autocomplete="off">
-        </mat-form-field>
-        <button mat-icon-button type="submit" color="primary" [disabled]="!form.valid || !contact">
-            <mat-icon>send</mat-icon>
-        </button>
-    </form>
-
+  <form class="chat-form" [formGroup]="form" (ngSubmit)="sendMessage()">
+    <mat-form-field class="input-field" appearance="outline">
+      <input matInput placeholder="Type a message" formControlName="message" autocomplete="off">
+    </mat-form-field>
+    <button mat-icon-button type="submit" color="primary" [disabled]="!form.valid || !contact">
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
 </div>
