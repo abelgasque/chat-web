@@ -9,9 +9,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ChatWindowComponent implements OnInit {
 
   form!: FormGroup;
-  
+
+  @Input() senderId: string = '';
   @Input() contact: any = undefined;
-  @Input() messages: { sender: string; text: string }[] = [];
+  @Input() messages: any[] = [];
 
   @Output() eventSendMessage = new EventEmitter<any>();
   @Output() eventCloseContact = new EventEmitter<any>();

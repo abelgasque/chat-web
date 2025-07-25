@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -32,6 +33,7 @@ import { UserFormComponent } from './widgets/user-form/user-form.component';
 import { ButtonMenuUserComponent } from './components/button-menu-user/button-menu-user.component';
 import { ButtonChatComponent } from './components/button-chat/button-chat.component';
 import { ChatWindowComponent } from './widgets/chat-window/chat-window.component';
+import { NotificationService } from './services/notification.service';
 
 let components = [
   FooterComponent,
@@ -74,8 +76,10 @@ let components = [
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSnackBarModule,
   ],
   providers: [
+    NotificationService,
     // MessageService,
   ]
 })

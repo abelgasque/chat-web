@@ -14,9 +14,11 @@ export class SidebarContactComponent implements OnInit {
 
   @Output() eventContactSelected = new EventEmitter<any>();
 
-  constructor(
-    public sharedService: SharedService,
-  ) { }
+  userId: string;
+
+  constructor(public sharedService: SharedService) {
+    this.userId = localStorage.getItem('id') || '';
+  }
 
   ngOnInit(): void {
   }
