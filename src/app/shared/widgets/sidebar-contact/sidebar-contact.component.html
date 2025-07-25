@@ -6,11 +6,13 @@
         </button>
     </div>
     <mat-nav-list>
-        <mat-list-item *ngFor="let contact of contacts" (click)="selectContact(contact)"
-            [ngClass]="{ 'selected': selectedContact?.id === contact.id }">
-            <img matListAvatar src="../../../assets/images/avatar-default.png" alt="{{ contact.username }}"
-                class="avatar" />
-            <span matLine class="username">{{ contact.username }}</span>
-        </mat-list-item>
+        <ng-container *ngFor="let contact of contacts">
+            <mat-list-item *ngIf="userId !== contact.id" (click)="selectContact(contact)"
+                [ngClass]="{ 'selected': selectedContact?.id === contact.id }">
+                <img matListAvatar src="../../../assets/images/avatar-default.png" alt="{{ contact.username }}"
+                    class="avatar" />
+                <span matLine class="username">{{ contact.username }}</span>
+            </mat-list-item>
+        </ng-container>
     </mat-nav-list>
 </div>
