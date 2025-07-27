@@ -3,10 +3,13 @@
     <span>Login</span>
 </button>
 
-<button mat-button [matMenuTriggerFor]="menu" *ngIf="this.coreService.token !== ''">
-    <mat-icon>people_account</mat-icon>
-    <span> {{ this.coreService.username }}</span>
+<button mat-button [matMenuTriggerFor]="menu" *ngIf="coreService.token !== ''" class="user-profile-button">
+  <img src="../../../assets/images/avatar-default.png" class="avatar" alt="Avatar" />
+  <span class="user-name">
+    {{ coreService.username }}
+  </span>
 </button>
+
 <mat-menu #menu="matMenu">
     <button mat-menu-item [routerLink]="['/chat']">
         <mat-icon>chat</mat-icon>
