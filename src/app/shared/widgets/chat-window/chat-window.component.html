@@ -1,19 +1,19 @@
 <div class="chat-container mat-elevation-z2">
-  <div class="chat-header" *ngIf="contact">
-    <img class="contact-avatar" [src]="contact.avatar || './assets/images/avatar-default.png'"
-      alt="{{ contact.username }}" />
+  <div class="chat-header">
+    <img class="contact-avatar" [src]="sharedService.selectedContact.avatar || './assets/images/avatar-default.png'"
+      alt="{{ sharedService.selectedContact.username }}" />
     <div class="contact-info">
-      <div class="contact-name">{{ contact.username }}</div>
+      <div class="contact-name">{{ sharedService.selectedContact.username }}</div>
       <div class="contact-status">Online</div>
     </div>
-    <button mat-icon-button class="more-btn">
-      <mat-icon>more_vert</mat-icon>
+    <button mat-icon-button [routerLink]="['/chat']" class="more-btn">
+      <mat-icon>close</mat-icon>
     </button>
   </div>
 
-  <div class="message-list" #scrollContainer *ngIf="contact">
+  <div class="message-list" #scrollContainer>
     <div *ngFor="let msg of messages"
-      [ngClass]="{ 'sent': senderId === msg.senderId, 'received': contact.id === msg.senderId }" class="message-bubble">
+      [ngClass]="{ 'sent': senderId === msg.senderId, 'received': receiverId === msg.senderId }" class="message-bubble">
       <div class="message-text">{{ msg.message }}</div>
 
       <div class="message-meta">
@@ -32,11 +32,11 @@
     </div>
   </div>
 
-  <form class="chat-form" [formGroup]="form" (ngSubmit)="sendMessage()" *ngIf="contact">
+  <form class="chat-form" [formGroup]="form" (ngSubmit)="sendMessage()">
     <mat-form-field class="input-field" appearance="outline">
       <input matInput placeholder="Type a message" formControlName="message" autocomplete="off">
     </mat-form-field>
-    <button mat-icon-button type="submit" color="primary" [disabled]="!form.valid || !contact">
+    <button mat-icon-button type="submit" color="primary" [disabled]="!form.valid || !sharedService.selectedContact">
       <mat-icon>send</mat-icon>
     </button>
   </form>
