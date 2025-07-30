@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 
 import { MessagesService } from 'src/app/shared/services/messages.service';
-import { NotificationService } from 'src/app/shared/services/notification.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { UserService } from 'src/app/shared/services/user.service';
-import { WebsocketService } from 'src/app/shared/services/websocket.service';
 
 @Component({
   selector: 'app-chat',
@@ -15,8 +12,9 @@ import { WebsocketService } from 'src/app/shared/services/websocket.service';
 })
 export class ChatComponent implements OnInit {
 
+  public contacts: any[];
+
   constructor(
-    private router: Router,
     private userService: UserService,
     private messagesService: MessagesService,
     public sharedService: SharedService,
@@ -40,7 +38,7 @@ export class ChatComponent implements OnInit {
       )
       .subscribe({
         next: (resp: any) => {
-          this.sharedService.contacts = resp.data;
+          this.contacts = resp.data;
         },
         error: (error: any) => {
           this.messagesService.errorHandler(error);

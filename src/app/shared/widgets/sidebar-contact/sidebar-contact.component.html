@@ -1,14 +1,15 @@
 <div class="contact-list">
     <div class="contact-header">
         <span class="contact-title">Contacts</span>
-        <button mat-icon-button (click)="toggleSidebarContact()">
+        <button mat-icon-button (click)="sharedService.toggleSidebarContact()">
             <mat-icon>close</mat-icon>
         </button>
     </div>
     <mat-nav-list>
         <ng-container *ngFor="let contact of contacts">
-            <mat-list-item *ngIf="userId !== contact.id" (click)="selectContact(contact)"
-                [ngClass]="{ 'selected': selectedContact?.id === contact.id }">
+            <mat-list-item *ngIf="userId !== contact.id"
+                [routerLinkActive]="'selected'"
+                [routerLink]="['user', contact.id]">
                 <img matListAvatar src="../../../assets/images/avatar-default.png" alt="{{ contact.username }}"
                     class="avatar" />
                 <span matLine class="username">{{ contact.username }}</span>

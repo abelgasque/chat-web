@@ -10,28 +10,12 @@ import { SharedService } from '../../services/shared.service';
 export class SidebarContactComponent implements OnInit {
 
   @Input() contacts: any[] = [];
-  @Input() selectedContact: any;
 
-  @Output() eventContactSelected = new EventEmitter<any>();
-
-  userId: string;
+  public userId: string;
 
   constructor(public sharedService: SharedService) {
     this.userId = localStorage.getItem('id') || '';
   }
 
-  ngOnInit(): void {
-  }
-
-  toggleSidebarContact() {
-    if (this.sharedService.openedSidebarContact) {
-      this.selectedContact = undefined;
-    }
-    this.sharedService.toggleSidebarContact();
-  }
-
-  selectContact(contact: any) {
-    this.selectedContact = contact;
-    this.eventContactSelected.emit(contact);
-  }
+  ngOnInit(): void {}
 }
