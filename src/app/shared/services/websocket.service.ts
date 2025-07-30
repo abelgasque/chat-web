@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,24 +9,26 @@ export class WebsocketService {
   private socket: WebSocket | null = null;
   private messageSubject = new Subject<string>();
 
+  constructor(private notificationService: NotificationService) { }
+
   connect(url: string): void {
     this.socket = new WebSocket(url);
 
     this.socket.onopen = () => {
-      console.log('🔌 WebSocket conectado');
+      this.notificationService.success('🔌 WebSocket conectado');
     };
 
     this.socket.onmessage = (event) => {
-      console.log('📩 Mensagem recebida:', event.data);
       this.messageSubject.next(event.data);
     };
 
     this.socket.onerror = (error) => {
       console.error('❌ Erro WebSocket:', error);
+      this.notificationService.error('❌ Erro WebSocket:');
     };
 
     this.socket.onclose = () => {
-      console.warn('🔌 WebSocket desconectado');
+      this.notificationService.warning('🔌 WebSocket desconectado');
     };
   }
 
@@ -33,7 +36,7 @@ export class WebsocketService {
     if (this.socket?.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify(msg));
     } else {
-      console.warn('⛔ WebSocket não está conectado.');
+      this.notificationService.warning('⛔ WebSocket não está conectado.');
     }
   }
 

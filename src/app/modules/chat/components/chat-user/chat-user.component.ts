@@ -22,6 +22,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   public senderId: string;
   public receiverId: string;
   public messages: any[] = [];
+  public user: any = undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,21 +36,19 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       this.token = localStorage.getItem('access_token') || '';
       this.senderId = localStorage.getItem('id') || '';
       this.receiverId = params.get('id') || '';
-      this.onReadMessages();
-    });
-  }
-  
-  ngOnInit(): void {
-    this.receiverId = this.route.snapshot.paramMap.get('id') || '';
-    this.senderId = localStorage.getItem('id') || '';
-    this.token = localStorage.getItem('access_token') || '';
-    this.onReadMessages();
+      this.messages = [];
 
-    this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.senderId}&token=${this.token}`);
-    this.messageSub = this.websocketService.onMessage().subscribe((msg) => {
-      this.notificationService.success(msg);
+      this.onReadUser();
+      this.onReadMessages();
+
+      this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.senderId}&token=${this.token}`);
+      this.messageSub = this.websocketService.onMessage().subscribe((msg) => {
+        this.notificationService.success(msg);
+      });
     });
   }
+
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.websocketService.disconnect();
@@ -68,6 +67,24 @@ export class ChatUserComponent implements OnInit, OnDestroy {
         sentAt: new Date(),
       });
     }
+  }
+
+  onReadUser() {
+    this.sharedService.openSpinner();
+    this.userService.readByIdAsync(this.receiverId)
+      .pipe(
+        finalize(() => {
+          this.sharedService.closeSpinner();
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          this.user = resp;
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
   }
 
   onReadMessages() {

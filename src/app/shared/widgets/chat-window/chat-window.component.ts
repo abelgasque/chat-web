@@ -2,7 +2,6 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { SharedService } from '../../services/shared.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -16,16 +15,17 @@ export class ChatWindowComponent implements OnInit {
 
   @Input() senderId: string = '';
   @Input() receiverId: string = '';
+  @Input() avatar: string = './assets/images/avatar-default.png';
+  @Input() username: string = 'Desconhecido';
+  @Input() status: string = 'Offline';
   @Input() messages: any[] = [];
 
   @Output() eventSendMessage = new EventEmitter<any>();
-  @Output() eventCloseContact = new EventEmitter<any>();
   
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
     public sharedService: SharedService,
   ) { }
 

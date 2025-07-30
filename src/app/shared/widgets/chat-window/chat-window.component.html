@@ -1,10 +1,11 @@
 <div class="chat-container mat-elevation-z2">
   <div class="chat-header">
-    <img class="contact-avatar" [src]="sharedService.selectedContact.avatar || './assets/images/avatar-default.png'"
-      alt="{{ sharedService.selectedContact.username }}" />
+    <img class="contact-avatar" [src]="avatar" />
     <div class="contact-info">
-      <div class="contact-name">{{ sharedService.selectedContact.username }}</div>
-      <div class="contact-status">Online</div>
+      <div class="contact-name">{{ username }}</div>
+      <div class="contact-status" [ngClass]="{ 'offline': status === 'offline' }">
+        {{ status }}
+      </div>
     </div>
     <button mat-icon-button [routerLink]="['/chat']" class="more-btn">
       <mat-icon>close</mat-icon>
