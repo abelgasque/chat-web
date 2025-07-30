@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,10 @@ export class SharedService {
   public openedSidebarChat: boolean = false;
   public openedSpinner: boolean = false;
 
-  constructor() { }
+  public contacts: any[] = [];
+  public selectedContact: any;
+
+  constructor(private router: Router) { }
 
   toggleSidebar() {
     this.openedSidebar = !this.openedSidebar;
@@ -30,5 +34,10 @@ export class SharedService {
 
   closeSpinner() {
     this.openedSpinner = false;
+  }
+
+  selectContact(contact: any) {
+    this.selectedContact = contact;
+    this.router.navigate([`/chat/user/${contact.id}`]);
   }
 }

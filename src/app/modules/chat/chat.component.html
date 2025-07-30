@@ -1,13 +1,8 @@
 <mat-drawer-container class="chat-wrapper">
-
     <mat-drawer mode="side" [opened]="sharedService.openedSidebarContact">
-        <app-sidebar-contact [contacts]="contacts" [selectedContact]="selectedContact"
-            (eventContactSelected)="selectContact($event)"></app-sidebar-contact>
+        <app-sidebar-contact [contacts]="contacts"></app-sidebar-contact>
     </mat-drawer>
-
     <mat-drawer-content>
-        <app-chat-window [messages]="messages" [senderId]="userId" [contact]="selectedContact"
-            (eventSendMessage)="sendMessage($event)"></app-chat-window>
+        <router-outlet></router-outlet>
     </mat-drawer-content>
-
 </mat-drawer-container>
