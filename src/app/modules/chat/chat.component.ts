@@ -28,7 +28,7 @@ export class ChatComponent implements OnInit {
     this.sharedService.openSpinner();
     this.userService.readAsync({
       page: 1,
-      pageSize: 25,
+      pageSize: 100,
       active: true,
     })
       .pipe(
