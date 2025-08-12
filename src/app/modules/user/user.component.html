@@ -4,6 +4,6 @@
             (eventReadById)="onReadById($event)" (eventDeleteById)="onDelete($event)"></app-list>
     </mat-tab>
     <mat-tab [label]="tabLabel">
-        <app-user-form [data]="user"></app-user-form>
+        <app-user-form *ngIf="user" [data]="user"></app-user-form>
     </mat-tab>
 </mat-tab-group>

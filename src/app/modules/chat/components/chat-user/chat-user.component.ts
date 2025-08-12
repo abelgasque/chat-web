@@ -62,10 +62,12 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     if (message.trim()) {
       this.websocketService.sendMessage({
         chatId: this.chat.id,
+        receiverId: this.receiverId,
         message: message
       });
       this.messages.push({
         chatId: this.chat.id,
+        receiverId: this.receiverId,
         senderId: this.senderId,
         message: message,
         sentAt: new Date(),
@@ -102,7 +104,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           if (resp.data.length > 0) {
-            this.chat = resp.data;
+            this.chat = resp.data[0];
 
             if (this.chat.messages) {
               this.messages = this.chat.messages;
