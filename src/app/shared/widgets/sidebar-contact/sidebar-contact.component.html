@@ -10,8 +10,7 @@
             <mat-list-item *ngIf="userId !== contact.id"
                 [routerLinkActive]="'selected'"
                 [routerLink]="['user', contact.id]">
-                <img matListAvatar src="../../../assets/images/avatar-default.png" alt="{{ contact.username }}"
-                    class="avatar" />
+                <img matListAvatar [src]="contact.avatarUrl || '../../../assets/images/avatar-default.png'" alt="{{ contact.username }}" class="avatar" />
                 <span matLine class="username">{{ contact.username }}</span>
             </mat-list-item>
         </ng-container>
