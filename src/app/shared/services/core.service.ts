@@ -13,6 +13,7 @@ export class CoreService {
   public refreshToken: string;
   public username: string;
   public email: string;
+  public avatarUrl: string;
 
   constructor(
     private jwtHelperService: JwtHelperService,
@@ -21,6 +22,7 @@ export class CoreService {
     this.refreshToken = this.getRefreshTokenLocalStorage();
     this.username = localStorage.getItem('username') || '';
     this.email = localStorage.getItem('email') || '';
+    this.email = localStorage.getItem('avatarUrl') || '';
   }
 
   setHeadersBearer() {
@@ -44,12 +46,14 @@ export class CoreService {
     const decodeToken = this.jwtHelperService.decodeToken(this.token);
     this.username = decodeToken.unique_name;
     this.email = decodeToken.email;
+    this.avatarUrl = decodeToken.AvatarUrl;
 
     localStorage.setItem('access_token', this.token);
     localStorage.setItem('refresh_token', this.refreshToken);
     localStorage.setItem('id', decodeToken?.nameid);
     localStorage.setItem('username', this.username);
     localStorage.setItem('email', this.email);
+    localStorage.setItem('avatarUrl', this.avatarUrl);
   }
 
   removeTokenLocalStorage() {
@@ -57,10 +61,12 @@ export class CoreService {
     this.refreshToken = '';
     this.username = '';
     this.email = '';
+    this.avatarUrl = '';
 
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('username');
     localStorage.removeItem('email');
+    localStorage.removeItem('avatarUrl');
   }
 }

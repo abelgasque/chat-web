@@ -4,7 +4,7 @@
 </button>
 
 <button mat-button [matMenuTriggerFor]="menu" *ngIf="coreService.token !== ''" class="user-profile-button">
-  <img src="../../../assets/images/avatar-default.png" class="avatar" alt="Avatar" />
+  <img [src]="coreService.avatarUrl" class="avatar" alt="Avatar" />
   <span class="user-name">
     {{ coreService.username }}
   </span>

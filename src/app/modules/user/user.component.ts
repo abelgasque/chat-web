@@ -29,6 +29,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.columns = [
+      { name: 'avatarUrl', label: 'Avatar' },
       { name: 'username', label: 'Name' },
       { name: 'email', label: 'Email' },
       { name: 'createdAt', label: 'Date Create' },

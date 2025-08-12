@@ -1,3 +1,29 @@
 .mat-table {
     width: 100% !important;
 }
+
+.avatar-img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.tag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
+  font-size: 0.8rem;
+  display: inline-block;
+  min-width: 40px;
+  text-align: center;
+}
+
+.tag.true {
+  background-color: #4caf50;
+}
+
+.tag.false {
+  background-color: #f44336;
+}
