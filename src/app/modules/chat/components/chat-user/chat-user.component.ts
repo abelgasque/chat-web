@@ -9,6 +9,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { ChatService } from 'src/app/shared/services/chat.service';
+import { ChatMessageService } from 'src/app/shared/services/chat-message.service';
 
 @Component({
   selector: 'app-chat-user',
@@ -31,6 +32,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private messagesService: MessagesService,
     private userService: UserService,
+    private chatMessageService: ChatMessageService,
     private chatService: ChatService,
   ) {
     this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.senderId}&token=${this.token}`);
@@ -44,10 +46,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
 
       this.onReadUser();
       this.onReadChat();
-
-      if (!this.chat) {
-        this.createChat();
-      }
     });
   }
 
@@ -62,7 +60,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     if (message.trim()) {
       this.websocketService.sendMessage({
         chatId: this.chat.id,
-        receiverId: this.receiverId,
+        senderId: this.senderId,
         message: message
       });
       this.messages.push({
@@ -106,7 +104,12 @@ export class ChatUserComponent implements OnInit, OnDestroy {
         next: (resp: any) => {
           if (resp.data.length > 0) {
             this.chat = resp.data[0];
+            this.onReadMessages();
             return;
+          }
+
+          if (!this.chat) {
+            this.createChat();
           }
         },
         error: (error: any) => {
@@ -140,12 +143,12 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   }
 
   onReadMessages() {
+    console.log(this.chat);
     this.sharedService.openSpinner();
-    this.userService.readMessagesAsync({
+    this.chatMessageService.readAsync({
       page: 1,
       pageSize: 25,
-      senderId: this.senderId,
-      receiverId: this.receiverId
+      chatId: this.chat.id
     })
       .pipe(
         finalize(() => {
@@ -154,6 +157,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
+          console.log(resp);
           for (const message of resp.data) {
             this.messages.unshift(message);
           }

@@ -4,21 +4,22 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.interface';
 import { CoreService } from './core.service';
+import { PaginationDTO } from '../models/DTO/pagination.dto';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class ChatMessageService {
   private baseUrl: string;
 
   constructor(
     private http: HttpClient,
     private coreService: CoreService
   ) {
-    this.baseUrl = `${environment.baseUrlApi}/v1/api/user`;
+    this.baseUrl = `${environment.baseUrlApi}/v1/api/chat/message`;
   }
 
-  createAsync(entity: User) {
+  createAsync(entity: any) {
     const headers = this.coreService.setHeadersBearer();
     return this.http.post<any>(`${this.baseUrl}`, entity, { headers });
   }
@@ -30,6 +31,11 @@ export class UserService {
         pageSize: filter.pageSize.toString()
       }
     });
+
+    if (filter.chatId) {
+      params = params.set('chatId', filter.chatId);
+    }
+
     const headers = this.coreService.setHeadersBearer();
     return this.http.get<any>(`${this.baseUrl}`, { headers, params });
   }
