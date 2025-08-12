@@ -46,7 +46,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
         this.createChat();
       }
 
-      this.websocketService.connect(`${environment.baseUrlWs}?chatId=${this.chat.id}&token=${this.token}`);
+      this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.senderId}&token=${this.token}`);
       this.messageSub = this.websocketService.onMessage().subscribe((msg) => { });
     });
   }
@@ -61,10 +61,11 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   sendMessage(message) {
     if (message.trim()) {
       this.websocketService.sendMessage({
-        toUserId: this.senderId,
+        chatId: this.chat.id,
         message: message
       });
       this.messages.push({
+        chatId: this.chat.id,
         senderId: this.senderId,
         message: message,
         sentAt: new Date(),

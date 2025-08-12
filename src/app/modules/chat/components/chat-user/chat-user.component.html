@@ -1,8 +1,4 @@
-<app-chat-window *ngIf="user"
-    [messages]="messages" 
-    [senderId]="senderId"
-    [receiverId]="receiverId"
-    [username]="user.name"
-    [status]="user.loggedAt !== null ? 'online' : 'offline'"
+<app-chat-window *ngIf="user" [messages]="messages" [senderId]="senderId" [receiverId]="receiverId"
+    [username]="user.name" [status]="user.loggedAt !== null ? 'online' : 'offline'"
     (eventSendMessage)="sendMessage($event)">
 </app-chat-window>

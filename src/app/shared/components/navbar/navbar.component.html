@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" *ngIf="!this.router.url.includes('security')">
-    <button mat-icon-button (click)="sharedService.toggleSidebarContact()" *ngIf="this.router.url.includes('chat')">
+    <button mat-icon-button (click)="sharedService.toggleSidebar()" *ngIf="coreService.token">
         <mat-icon>menu</mat-icon>
     </button>
 
