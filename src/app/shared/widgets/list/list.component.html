@@ -1,11 +1,31 @@
 <div class="table-container mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-
         <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column.label }} </th>
-            <td mat-cell *matCellDef="let row">
-                {{ getCellValue(row, column.name) }}
-            </td>
+            <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column.label }} </th>
+
+                <td mat-cell *matCellDef="let row">
+                    <img *ngIf="column.name == 'avatarUrl'" [src]="getCellValue(row, column.name)" alt="Avatar"
+                        class="avatar-img" />
+
+                    <span *ngIf="column.name == 'isActive'">
+                        <span class="tag" [ngClass]="getActiveClass(getCellValue(row, column.name))">
+                            {{ getCellValue(row, column.name) ? 'active' : 'inactive' }}
+                        </span>
+                    </span>
+
+                    <span *ngIf="column.name == 'isBlock'">
+                        <span class="tag" [ngClass]="getActiveClass(getCellValue(row, column.name))">
+                            {{ getCellValue(row, column.name) ? 'true' : 'false' }}
+                        </span>
+                    </span>
+
+                    <span *ngIf="column.name != 'avatarUrl' && column.name != 'isActive' && column.name != 'isBlock'">
+                        {{ getCellValue(row, column.name) }}
+                    </span>
+                </td>
+            </ng-container>
         </ng-container>
 
         <ng-container matColumnDef="actions">

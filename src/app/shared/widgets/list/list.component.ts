@@ -34,13 +34,21 @@ export class ListComponent implements OnInit {
     this.displayedColumns.push('actions');
   }
 
+  getActiveClass(value: any): string {
+    return value === true || value === 'true' ? 'tag true' : 'tag false';
+  }
+
   getCellValue(row: any, columnName: string): any {
     const value = row[columnName];
-    if (columnName.toLowerCase().includes('date') && value) {
-      return new Date(value).toLocaleString();
+    if (columnName == "createdAt" && value) {
+      const date = new Date(value);
+      const dateStr = date.toLocaleDateString('en-US');
+      const timeStr = date.toLocaleTimeString('en-US');
+      return `${dateStr} ${timeStr}`;
     }
     return value;
   }
+
   readById(id: string) {
     this.eventReadById.emit(id);
   }
