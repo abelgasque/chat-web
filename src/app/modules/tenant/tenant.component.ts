@@ -38,7 +38,7 @@ export class TenantComponent implements OnInit {
       page: 1,
       pageSize: 25,
     };
-    this.onRead();
+    // this.onRead();
   }
 
   setTab(index, title) {
