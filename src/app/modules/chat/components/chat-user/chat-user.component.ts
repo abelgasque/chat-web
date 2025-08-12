@@ -35,9 +35,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     private chatMessageService: ChatMessageService,
     private chatService: ChatService,
   ) {
-    this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.senderId}&token=${this.token}`);
-    this.messageSub = this.websocketService.onMessage().subscribe((msg) => { });
-
     this.route.paramMap.subscribe(params => {
       this.token = localStorage.getItem('access_token') || '';
       this.senderId = localStorage.getItem('id') || '';
@@ -46,6 +43,9 @@ export class ChatUserComponent implements OnInit, OnDestroy {
 
       this.onReadUser();
       this.onReadChat();
+      
+      this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.senderId}&token=${this.token}`);
+      this.messageSub = this.websocketService.onMessage().subscribe((msg) => { });
     });
   }
 
@@ -61,6 +61,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       this.websocketService.sendMessage({
         chatId: this.chat.id,
         senderId: this.senderId,
+        receiverId: this.receiverId,
         message: message
       });
       this.messages.push({
@@ -133,7 +134,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
-          console.log(resp);
           this.chat = resp;
         },
         error: (error: any) => {
@@ -143,7 +143,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   }
 
   onReadMessages() {
-    console.log(this.chat);
     this.sharedService.openSpinner();
     this.chatMessageService.readAsync({
       page: 1,
@@ -157,7 +156,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
-          console.log(resp);
           for (const message of resp.data) {
             this.messages.unshift(message);
           }
