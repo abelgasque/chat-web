@@ -95,7 +95,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   onReadChat() {
     this.sharedService.openSpinner();
     this.chat = undefined;
-    this.chatService.readByIdAsync(this.senderId, this.receiverId)
+    this.chatService.readBySenderIdAsync(this.senderId, this.receiverId)
       .pipe(
         finalize(() => {
           this.sharedService.closeSpinner();
@@ -144,11 +144,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
 
   onReadMessages() {
     this.sharedService.openSpinner();
-    this.chatMessageService.readAsync({
-      page: 1,
-      pageSize: 25,
-      chatId: this.chat.id
-    })
+    this.chatService.readByIdAsync(this.chat.id)
       .pipe(
         finalize(() => {
           this.sharedService.closeSpinner();
@@ -156,9 +152,7 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
-          for (const message of resp.data) {
-            this.messages.unshift(message);
-          }
+          this.messages = resp.messages;
         },
         error: (error: any) => {
           this.messagesService.errorHandler(error);

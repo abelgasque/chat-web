@@ -36,7 +36,12 @@ export class ChatService {
     return this.http.get<any>(`${this.baseUrl}`, { headers, params });
   }
 
-  readByIdAsync(senderId: string, receiverId: string) {
+  readByIdAsync(chatId: string) {
+    const headers = this.coreService.setHeadersBearer();
+    return this.http.get<any>(`${this.baseUrl}/${chatId}/messages`, { headers });
+  }
+
+  readBySenderIdAsync(senderId: string, receiverId: string) {
     let params = new HttpParams({
       fromObject: {
         senderId: senderId.toString(),
