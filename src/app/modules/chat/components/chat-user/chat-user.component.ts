@@ -5,10 +5,10 @@ import { finalize, Subscription } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { WebsocketService } from 'src/app/shared/services/websocket.service';
-import { NotificationService } from 'src/app/shared/services/notification.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { ChatService } from 'src/app/shared/services/chat.service';
 
 @Component({
   selector: 'app-chat-user',
@@ -23,14 +23,15 @@ export class ChatUserComponent implements OnInit, OnDestroy {
   public receiverId: string;
   public messages: any[] = [];
   public user: any = undefined;
+  public chat: any;
 
   constructor(
     private route: ActivatedRoute,
     private websocketService: WebsocketService,
-    private notificationService: NotificationService,
     private sharedService: SharedService,
     private messagesService: MessagesService,
     private userService: UserService,
+    private chatService: ChatService,
   ) {
     this.route.paramMap.subscribe(params => {
       this.token = localStorage.getItem('access_token') || '';
@@ -39,16 +40,18 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       this.messages = [];
 
       this.onReadUser();
-      this.onReadMessages();
+      this.onReadChat();
 
-      this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.senderId}&token=${this.token}`);
-      this.messageSub = this.websocketService.onMessage().subscribe((msg) => {
-        this.notificationService.success(msg);
-      });
+      if (!this.chat) {
+        this.createChat();
+      }
+
+      this.websocketService.connect(`${environment.baseUrlWs}?chatId=${this.chat.id}&token=${this.token}`);
+      this.messageSub = this.websocketService.onMessage().subscribe((msg) => { });
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {
     this.websocketService.disconnect();
@@ -80,6 +83,55 @@ export class ChatUserComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.user = resp;
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
+  }
+
+  onReadChat() {
+    this.sharedService.openSpinner();
+    this.chatService.readByIdAsync(this.senderId, this.receiverId)
+      .pipe(
+        finalize(() => {
+          this.sharedService.closeSpinner();
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          if (resp.data.length > 0) {
+            this.chat = resp.data;
+
+            if (this.chat.messages) {
+              this.messages = this.chat.messages;
+            }
+            return;
+          }
+        },
+        error: (error: any) => {
+          this.messagesService.errorHandler(error);
+        }
+      });
+  }
+
+  createChat() {
+    this.sharedService.openSpinner();
+    this.chatService.createAsync({
+      name: this.user.name,
+      senderId: this.senderId,
+      receiverId: this.receiverId,
+      messages: []
+    })
+      .pipe(
+        finalize(() => {
+          this.sharedService.closeSpinner();
+        })
+      )
+      .subscribe({
+        next: (resp: any) => {
+          console.log(resp);
+          this.chat = resp;
         },
         error: (error: any) => {
           this.messagesService.errorHandler(error);
