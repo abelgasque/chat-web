@@ -9,7 +9,6 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { ChatService } from 'src/app/shared/services/chat.service';
-import { ChatMessageService } from 'src/app/shared/services/chat-message.service';
 
 @Component({
   selector: 'app-chat-user',
@@ -32,7 +31,6 @@ export class ChatUserComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private messagesService: MessagesService,
     private userService: UserService,
-    private chatMessageService: ChatMessageService,
     private chatService: ChatService,
   ) {
     this.route.paramMap.subscribe(params => {
@@ -43,9 +41,28 @@ export class ChatUserComponent implements OnInit, OnDestroy {
 
       this.onReadUser();
       this.onReadChat();
-      
+
       this.websocketService.connect(`${environment.baseUrlWs}?userId=${this.senderId}&token=${this.token}`);
-      this.messageSub = this.websocketService.onMessage().subscribe((msg) => { });
+      this.messageSub = this.websocketService.onMessage().subscribe((msg: any) => {
+        let data;
+        try {
+          data = typeof msg === 'string' ? JSON.parse(msg) : msg;
+        } catch (e) {
+          console.error('Erro ao parsear mensagem WebSocket', e);
+          return;
+        }
+
+        const message = {
+          chatId: data.chatId,
+          receiverId: data.receiverId,
+          senderId: data.senderId,
+          message: data.message,
+          sentAt: data.timestamp,
+        };
+
+        console.log(message);
+        this.messages.push(message);
+      });
     });
   }
 
