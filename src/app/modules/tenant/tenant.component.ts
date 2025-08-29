@@ -38,7 +38,7 @@ export class TenantComponent implements OnInit {
       page: 1,
       pageSize: 25,
     };
-    // this.onRead();
+    this.onRead();
   }
 
   setTab(index, title) {
@@ -61,6 +61,7 @@ export class TenantComponent implements OnInit {
       )
       .subscribe({
         next: (resp: any) => {
+          console.log(resp);
           this.tenants = resp;
         },
         error: (error: any) => {
