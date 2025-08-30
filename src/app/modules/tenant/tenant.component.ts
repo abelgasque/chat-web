@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 
 import { PaginationDTO } from 'src/app/shared/models/DTO/pagination.dto';
@@ -13,6 +14,7 @@ import { TenantService } from 'src/app/shared/services/tenant.service';
 })
 export class TenantComponent implements OnInit {
 
+  public form: FormGroup;
   public tabLabel = "Create";
   public selectedTabIndex = 0;
   public tenants: any = [];
@@ -21,10 +23,21 @@ export class TenantComponent implements OnInit {
   public filters: PaginationDTO;
 
   constructor(
+    private fb: FormBuilder,
     private service: TenantService,
     private messagesService: MessagesService,
     private sharedService: SharedService,
   ) {
+    this.form = this.fb.group({
+      id: [{ value: crypto.randomUUID(), disabled: true }],
+      name: ['', Validators.required],
+      createdAt: [{ value: new Date(), disabled: true }],
+      updatedAt: [{ value: new Date(), disabled: true }],
+      deletedAt: [{ value: '', disabled: true }],
+      domain: ['', Validators.required],
+      database: ['', Validators.required]
+    });
+
     this.columns = [
       { name: 'name', label: 'Name' },
       { name: 'database', label: 'Database' },
@@ -39,6 +52,21 @@ export class TenantComponent implements OnInit {
       pageSize: 25,
     };
     this.onRead();
+  }
+
+  onSubmit(): void {
+    if (this.form.valid) {
+      const entity = this.form.getRawValue();
+      this.service.createAsync(entity).subscribe({
+        next: (res) => {
+          this.messagesService.success('Registro criado com sucesso:', res);
+          this.form.reset();
+        },
+        error: (err) => {
+          this.messagesService.errorHandler(err);
+        }
+      });
+    }
   }
 
   setTab(index, title) {
@@ -81,6 +109,17 @@ export class TenantComponent implements OnInit {
       .subscribe({
         next: (resp: any) => {
           this.tenant = resp;
+
+          this.form.patchValue({
+            id: resp.id,
+            name: resp.name,
+            createdAt: resp.createdAt ? new Date(resp.createdAt) : null,
+            updatedAt: resp.updatedAt ? new Date(resp.updatedAt) : null,
+            deletedAt: resp.deletedAt ? new Date(resp.deletedAt) : null,
+            domain: resp.domain,
+            database: resp.database
+          });
+
           this.setTab(1, "Edit");
         },
         error: (error: any) => {
@@ -107,5 +146,4 @@ export class TenantComponent implements OnInit {
         }
       });
   }
-
 }
