@@ -4,6 +4,150 @@
             (eventReadById)="onReadById($event)" (eventDeleteById)="onDelete($event)"></app-list>
     </mat-tab>
     <mat-tab [label]="tabLabel">
-        <app-user-form *ngIf="user" [data]="user"></app-user-form>
+        <div class="container mt-4">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row g-3">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>ID</mat-label>
+                        <input matInput formControlName="id" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Nome</mat-label>
+                        <input matInput formControlName="name" required>
+                        <mat-error *ngIf="form.get('name')?.hasError('required')">
+                            Nome é obrigatório
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" required>
+                        <mat-error *ngIf="form.get('email')?.hasError('required')">
+                            Email é obrigatório
+                        </mat-error>
+                        <mat-error *ngIf="form.get('email')?.hasError('email')">
+                            Informe um email válido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Telefone</mat-label>
+                        <input matInput formControlName="phone">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Avatar URL</mat-label>
+                        <input matInput formControlName="avatarUrl">
+                    </mat-form-field>
+                </div>
+
+                <!-- Senha -->
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Senha</mat-label>
+                        <input matInput type="password" formControlName="password" required>
+                        <mat-error *ngIf="form.get('password')?.hasError('required')">
+                            Senha é obrigatória
+                        </mat-error>
+                        <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+                            Senha deve ter pelo menos 6 caracteres
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Número de Logins</mat-label>
+                        <input matInput type="number" formControlName="nuLogged">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Número de Refresh</mat-label>
+                        <input matInput type="number" formControlName="nuRefreshed">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Created At</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="createdAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Updated At</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="updatedAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Deleted At</mat-label>
+                        <input matInput [matDatepicker]="picker3" formControlName="deletedAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Active At</mat-label>
+                        <input matInput [matDatepicker]="picker4" formControlName="activeAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                        <mat-datepicker #picker4></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Blocked At</mat-label>
+                        <input matInput [matDatepicker]="picker5" formControlName="blockedAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                        <mat-datepicker #picker5></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Logged At</mat-label>
+                        <input matInput [matDatepicker]="picker6" formControlName="loggedAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                        <mat-datepicker #picker6></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Refreshed At</mat-label>
+                        <input matInput [matDatepicker]="picker7" formControlName="refreshedAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
+                        <mat-datepicker #picker7></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-12 text-end">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+                        Salvar
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </mat-tab>
 </mat-tab-group>
