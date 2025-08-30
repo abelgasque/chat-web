@@ -6,6 +6,12 @@
     <mat-tab [label]="tabLabel">
         <div class="container mt-4">
             <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row g-3">
+                <div class="col-md-12 text-center" *ngIf="form.get('avatarUrl')?.value">
+                    <img [src]="form.get('avatarUrl')?.value" alt="Foto de perfil" class="rounded-circle shadow-sm"
+                        style="width: 120px; height: 120px; object-fit: cover; border: 2px solid #ccc;">
+                    <p class="mt-2 text-muted">Foto de perfil</p>
+                </div>
+
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>ID</mat-label>
@@ -50,7 +56,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Senha -->
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Senha</mat-label>
@@ -142,11 +147,13 @@
                 </div>
 
                 <div class="col-12 text-end">
+                    <button mat-raised-button color="primary" type="button" (click)="onCancel()">
+                        Cancelar
+                    </button>
                     <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
                         Salvar
                     </button>
                 </div>
-
             </form>
         </div>
     </mat-tab>

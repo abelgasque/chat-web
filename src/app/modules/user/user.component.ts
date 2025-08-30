@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UserComponent implements OnInit {
   public form: FormGroup;
+  public isEditing = false;
   public tabLabel = "Create";
   public selectedTabIndex = 0;
   public columns: any[];
@@ -43,9 +44,9 @@ export class UserComponent implements OnInit {
       activeAt: [''],
       blockedAt: [''],
       nuLogged: [0],
-      loggedAt: [''],
+      loggedAt: [{ value: '', disabled: true }],
       nuRefreshed: [0],
-      refreshedAt: ['']
+      refreshedAt: [{ value: '', disabled: true }]
     });
 
     this.columns = [
@@ -66,23 +67,43 @@ export class UserComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
+      this.sharedService.openSpinner();
       const user = this.form.getRawValue();
-      console.log('Usuário enviado:', user);
-
-      this.service.createAsync(user).subscribe({
-        next: (resp: any) => {
-          this.messagesService.success('Usuário criado com sucesso!', resp);
-          this.onRead();
-        },
-        error: (error: any) => {
-          this.messagesService.errorHandler(error);
-        }
-      });
+      if (this.isEditing) {
+        this.service.updateAsync(user)
+          .pipe(
+            finalize(() => { this.sharedService.closeSpinner(); })
+          ).subscribe({
+            next: (resp: any) => {
+              this.messagesService.success('Registro atualizado com sucesso!', resp);
+              this.form.reset();
+            },
+            error: (error: any) => { this.messagesService.errorHandler(error); }
+          });
+      } else {
+        this.service.createAsync(user)
+          .pipe(
+            finalize(() => { this.sharedService.closeSpinner(); })
+          ).subscribe({
+            next: (resp: any) => {
+              this.messagesService.success('Registro criado com sucesso!', resp);
+              this.form.reset();
+            },
+            error: (error: any) => { this.messagesService.errorHandler(error); }
+          });
+      }
     }
   }
-  setTab(index, title) {
+
+  onCancel() {
+    this.form.reset();
+    this.setTab();
+  }
+
+  setTab(index = 0, isEditing = false, title = "Create") {
     this.selectedTabIndex = index;
     this.tabLabel = title;
+    this.isEditing = isEditing;
   }
 
   handlePage(event: PaginationDTO) {
@@ -112,42 +133,30 @@ export class UserComponent implements OnInit {
     this.sharedService.openSpinner();
     this.service.readByIdAsync(id)
       .pipe(
-        finalize(() => {
-          this.sharedService.closeSpinner();
-        })
+        finalize(() => { this.sharedService.closeSpinner(); })
       )
       .subscribe({
         next: (resp: User) => {
           this.user = resp;
-
           this.form.patchValue(this.user);
-
-          this.setTab(1, "Edit");
+          this.setTab(1, true, "Edit");
         },
-        error: (error: any) => {
-          this.messagesService.errorHandler(error);
-        }
+        error: (error: any) => { this.messagesService.errorHandler(error); }
       });
   }
 
   onDelete(id: string) {
     this.sharedService.openSpinner();
-
     this.service.deleteByIdAsync(id)
       .pipe(
-        finalize(() => {
-          const index = this.users.findIndex(item => item?.id === id);
-          this.users.splice(index, 1);
-        })
+        finalize(() => { this.sharedService.closeSpinner(); })
       )
       .subscribe({
         next: (resp: any) => {
-          this.onRead();
+          const index = this.users.findIndex(item => item?.id === id);
+          this.users.splice(index, 1);
         },
-        error: (error: any) => {
-          this.messagesService.errorHandler(error);
-        }
+        error: (error: any) => { this.messagesService.errorHandler(error); }
       });
   }
-
 }
