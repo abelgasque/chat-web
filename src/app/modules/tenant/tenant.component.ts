@@ -15,6 +15,7 @@ import { TenantService } from 'src/app/shared/services/tenant.service';
 export class TenantComponent implements OnInit {
 
   public form: FormGroup;
+  public isEditing = false;
   public tabLabel = "Create";
   public selectedTabIndex = 0;
   public tenants: any = [];
@@ -56,22 +57,44 @@ export class TenantComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
+      this.sharedService.openSpinner();
       const entity = this.form.getRawValue();
-      this.service.createAsync(entity).subscribe({
-        next: (res) => {
-          this.messagesService.success('Registro criado com sucesso:', res);
-          this.form.reset();
-        },
-        error: (err) => {
-          this.messagesService.errorHandler(err);
-        }
-      });
+      if (this.isEditing) {
+        this.service.updateAsync(entity)
+          .pipe(
+            finalize(() => { this.sharedService.closeSpinner(); })
+          )
+          .subscribe({
+            next: (resp: any) => {
+              this.messagesService.success('Registro atualizado com sucesso!', resp);
+              this.form.reset();
+            },
+            error: (error: any) => { this.messagesService.errorHandler(error); }
+          });
+      }
+      this.service.createAsync(entity)
+        .pipe(
+          finalize(() => { this.sharedService.closeSpinner(); })
+        )
+        .subscribe({
+          next: (resp: any) => {
+            this.messagesService.success('Registro criado com sucesso:', resp);
+            this.form.reset();
+          },
+          error: (error: any) => { this.messagesService.errorHandler(error); }
+        });
     }
   }
 
-  setTab(index, title) {
+  onCancel(): void {
+    this.form.reset();
+    this.setTab();
+  }
+
+  setTab(index = 0, isEditing = false, title = "Create") {
     this.selectedTabIndex = index;
     this.tabLabel = title;
+    this.isEditing = isEditing;
   }
 
   handlePage(event: PaginationDTO) {
@@ -89,7 +112,6 @@ export class TenantComponent implements OnInit {
       )
       .subscribe({
         next: (resp: any) => {
-          console.log(resp);
           this.tenants = resp;
         },
         error: (error: any) => {
@@ -102,29 +124,15 @@ export class TenantComponent implements OnInit {
     this.sharedService.openSpinner();
     this.service.readByIdAsync(id)
       .pipe(
-        finalize(() => {
-          this.sharedService.closeSpinner();
-        })
+        finalize(() => { this.sharedService.closeSpinner(); })
       )
       .subscribe({
         next: (resp: any) => {
           this.tenant = resp;
-
-          this.form.patchValue({
-            id: resp.id,
-            name: resp.name,
-            createdAt: resp.createdAt ? new Date(resp.createdAt) : null,
-            updatedAt: resp.updatedAt ? new Date(resp.updatedAt) : null,
-            deletedAt: resp.deletedAt ? new Date(resp.deletedAt) : null,
-            domain: resp.domain,
-            database: resp.database
-          });
-
-          this.setTab(1, "Edit");
+          this.form.patchValue(this.tenant);
+          this.setTab(1, true, "Edit");
         },
-        error: (error: any) => {
-          this.messagesService.errorHandler(error);
-        }
+        error: (error: any) => { this.messagesService.errorHandler(error); }
       });
   }
 
@@ -132,18 +140,14 @@ export class TenantComponent implements OnInit {
     this.sharedService.openSpinner();
     this.service.deleteByIdAsync(id)
       .pipe(
-        finalize(() => {
-          const index = this.tenants.findIndex(item => item?.id === id);
-          this.tenants.splice(index, 1);
-        })
+        finalize(() => { this.sharedService.closeSpinner(); })
       )
       .subscribe({
         next: (resp: any) => {
-          this.onRead();
+          const index = this.tenants.findIndex(item => item?.id === id);
+          this.tenants.splice(index, 1);
         },
-        error: (error: any) => {
-          this.messagesService.errorHandler(error);
-        }
+        error: (error: any) => { this.messagesService.errorHandler(error); }
       });
   }
 }

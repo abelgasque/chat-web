@@ -7,8 +7,6 @@
     <mat-tab [label]="tabLabel">
         <div class="container mt-4">
             <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row g-3">
-
-                <!-- ID -->
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>ID</mat-label>
@@ -16,7 +14,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Nome -->
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Nome</mat-label>
@@ -27,7 +24,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Domain -->
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Domain</mat-label>
@@ -38,7 +34,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Database -->
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Database</mat-label>
@@ -49,7 +44,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Datas -->
                 <div class="col-md-4">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Created At</mat-label>
@@ -77,8 +71,10 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Botão -->
                 <div class="col-12 text-end">
+                    <button mat-raised-button color="primary" type="button" (click)="onCancel()">
+                        Cancelar
+                    </button>
                     <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
                         Salvar
                     </button>
