@@ -36,7 +36,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Linguagem -->
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Linguagem</mat-label>
@@ -81,8 +80,10 @@
                     </mat-form-field>
                 </div>
 
-                <!-- Botão -->
                 <div class="col-12 text-end">
+                    <button mat-raised-button color="warn" type="button" (click)="onCancel()">
+                        Cancelar
+                    </button>
                     <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
                         Salvar
                     </button>

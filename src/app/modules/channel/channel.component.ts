@@ -15,6 +15,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 export class ChannelComponent implements OnInit {
   public form!: FormGroup;
   public tabLabel = "Create";
+  public isEditing = false;
   public selectedTabIndex = 0;
   public columns: any[];
   public channels: any = [];
@@ -59,22 +60,44 @@ export class ChannelComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       const entity = this.form.value;
-
-      this.service.createAsync(entity).subscribe({
-        next: (res) => {
-          this.messagesService.success('Registro criado com sucesso:', res);
-          this.form.reset();
-        },
-        error: (err) => {
-          this.messagesService.errorHandler(err);
-        }
-      });
+      this.sharedService.openSpinner();
+      if (this.isEditing) {
+        this.service.updateAsync(entity)
+          .pipe(
+            finalize(() => { this.sharedService.closeSpinner(); })
+          )
+          .subscribe({
+            next: (res) => {
+              this.messagesService.success('Registro atualizado com sucesso:', res);
+              this.form.reset();
+            },
+            error: (err) => { this.messagesService.errorHandler(err); }
+          });
+      } else {
+        this.service.createAsync(entity)
+          .pipe(
+            finalize(() => { this.sharedService.closeSpinner(); })
+          )
+          .subscribe({
+            next: (res) => {
+              this.messagesService.success('Registro criado com sucesso:', res);
+              this.form.reset();
+            },
+            error: (err) => { this.messagesService.errorHandler(err); }
+          });
+      }
     }
   }
 
-  setTab(index, title) {
+  onCancel() {
+    this.form.reset();
+    this.setTab();
+  }
+
+  setTab(index = 0, isEditing = false, title = "Create") {
     this.selectedTabIndex = index;
     this.tabLabel = title;
+    this.isEditing = isEditing;
   }
 
   handlePage(event: PaginationDTO) {
@@ -86,17 +109,13 @@ export class ChannelComponent implements OnInit {
     this.sharedService.openSpinner();
     this.service.readAsync(this.filters)
       .pipe(
-        finalize(() => {
-          this.sharedService.closeSpinner();
-        })
+        finalize(() => { this.sharedService.closeSpinner(); })
       )
       .subscribe({
         next: (resp: any) => {
           this.channels = resp;
         },
-        error: (error: any) => {
-          this.messagesService.errorHandler(error);
-        }
+        error: (error: any) => { this.messagesService.errorHandler(error); }
       });
   }
 
@@ -104,49 +123,30 @@ export class ChannelComponent implements OnInit {
     this.sharedService.openSpinner();
     this.service.readByIdAsync(id)
       .pipe(
-        finalize(() => {
-          this.sharedService.closeSpinner();
-        })
+        finalize(() => { this.sharedService.closeSpinner(); })
       )
       .subscribe({
         next: (resp: any) => {
           this.channel = resp;
-          this.form.patchValue({
-            id: resp.id,
-            name: resp.name,
-            createdAt: resp.createdAt ? new Date(resp.createdAt) : null,
-            updatedAt: resp.updatedAt ? new Date(resp.updatedAt) : null,
-            deletedAt: resp.deletedAt ? new Date(resp.deletedAt) : null,
-            type: resp.type,
-            lang: resp.lang,
-            url: resp.url
-          });
-
-          this.setTab(1, 'Edit');
+          this.form.patchValue(this.channel);
+          this.setTab(1, true, 'Edit');
         },
-        error: (error: any) => {
-          this.messagesService.errorHandler(error);
-        }
+        error: (error: any) => { this.messagesService.errorHandler(error); }
       });
   }
 
   onDelete(id: string) {
     this.sharedService.openSpinner();
-
     this.service.deleteByIdAsync(id)
       .pipe(
-        finalize(() => {
-          const index = this.channels.findIndex(item => item?.id === id);
-          this.channels.splice(index, 1);
-        })
+        finalize(() => { this.sharedService.closeSpinner(); })
       )
       .subscribe({
         next: (resp: any) => {
-          this.onRead();
+          const index = this.channels.findIndex(item => item?.id === id);
+          this.channels.splice(index, 1);
         },
-        error: (error: any) => {
-          this.messagesService.errorHandler(error);
-        }
+        error: (error: any) => { this.messagesService.errorHandler(error); }
       });
   }
 }
