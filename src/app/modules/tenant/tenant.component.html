@@ -1,12 +1,86 @@
 <mat-tab-group [(selectedIndex)]="selectedTabIndex" mat-align-tabs="start">
     <mat-tab label="Search">
-        <app-list [columns]="columns" [data]="tenants.data" [totalRecords]="tenants.total" (eventRead)="handlePage($event)"
-            (eventReadById)="onReadById($event)" (eventDeleteById)="onDelete($event)"></app-list>
+        <app-list [columns]="columns" [data]="tenants.data" [totalRecords]="tenants.total"
+            (eventRead)="handlePage($event)" (eventReadById)="onReadById($event)"
+            (eventDeleteById)="onDelete($event)"></app-list>
     </mat-tab>
     <mat-tab [label]="tabLabel">
-        <p>{{ tenant?.name }}</p>
-        <p>{{ tenant?.createdAt }}</p>
-        <p>{{ tenant?.updateAt }}</p>
-        <p>{{ tenant?.deletedAt }}</p>
+        <div class="container mt-4">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row g-3">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>ID</mat-label>
+                        <input matInput formControlName="id" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Nome</mat-label>
+                        <input matInput formControlName="name" required>
+                        <mat-error *ngIf="form.get('name')?.hasError('required')">
+                            Nome é obrigatório
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Domain</mat-label>
+                        <input matInput formControlName="domain" required>
+                        <mat-error *ngIf="form.get('domain')?.hasError('required')">
+                            Domain é obrigatório
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Database</mat-label>
+                        <input matInput formControlName="database" required>
+                        <mat-error *ngIf="form.get('database')?.hasError('required')">
+                            Database é obrigatório
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Created At</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="createdAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Updated At</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="updatedAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Deleted At</mat-label>
+                        <input matInput [matDatepicker]="picker3" formControlName="deletedAt">
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-12 text-end">
+                    <button mat-raised-button color="warn" type="button" (click)="onCancel()">
+                        Cancelar
+                    </button>
+                    <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">
+                        Salvar
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </mat-tab>
 </mat-tab-group>
